@@ -33,12 +33,20 @@ public class Customer {
 	public Customer() {
 
 	}
-
+	
 	public Customer(String name, String tel, String mail, String password) {
 		this.name = name;
 		this.tel = tel;
 		this.mail = mail;
 		this.password = password;
+	}
+
+	public Customer(String name, String tel, String mail, String password, boolean isDeleted) {
+		this.name = name;
+		this.tel = tel;
+		this.mail = mail;
+		this.password = password;
+		this.isDeleted = isDeleted;
 	}
 
 	public int getId() {
@@ -89,7 +97,4 @@ public class Customer {
 		this.isDeleted = isDeleted;
 	}
 
-	
-	
-	
 }
