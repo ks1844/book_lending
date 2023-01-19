@@ -13,7 +13,7 @@ public class Book {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "book_id")
-	private int bookId;
+	private int id;
 
 	@Column(name = "bookinfo_id")
 	private int bookInfoId;
@@ -24,7 +24,7 @@ public class Book {
 	@Column(name = "status_id")
 	private int statusId;
 
-	@Column(name = "is_deletede")
+	@Column(name = "is_deleted")
 	private boolean isDeleted;
 
 	public Book() {
@@ -37,12 +37,12 @@ public class Book {
 		this.statusId = statusId;
 	}
 
-	public int getBookId() {
-		return bookId;
+	public int getId() {
+		return id;
 	}
 
-	public void setBookId(int bookId) {
-		this.bookId = bookId;
+	public void setId(int bookId) {
+		this.id = bookId;
 	}
 
 	public int getBookInfoId() {

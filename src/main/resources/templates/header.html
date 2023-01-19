@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{style.css}">
+<title>ヘッダー</title>
+</head>
+
+<header th:fragment="header">
+    <div class="header">
+        <span class="title">図書管理システム(管理者用)</span>
+        <span class="menu">
+            <a href="/book">書籍検索</a>
+            <a href="/lending">書籍貸出</a>
+            <a href="/customer">会員一覧</a>
+            <a href="/delay">延滞者管理</a>
+        </span>
+    </div>
+</header>
+
+</html>

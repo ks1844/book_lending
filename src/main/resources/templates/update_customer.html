@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>会員情報の変更</title>
 </head>
 <body>
+    <h1>会員情報の変更</h1>
+    <form action="/customer/update" method="post">
+        <table>
+            <tr>
+                <th>会員ID</th>
+                <td><input type="text" name="customer_id" th:value="${customer.id}" readonly></td>
+            </tr>
+            <tr>
+                <th>名前</th>
+                <td><input type="text" name="customer_name" th:value="${customer.name}"></td>
+            </tr>
+            <tr>
+                <th>電話番号</th>
+                <td><input type="text" name="customer_tel" th:value="${customer.tel}"></td>
+            </tr>
+            <tr>
+                <th>メールアドレス</th>
+                <td><input type="text" name="customer_mail" th:value="${customer.mail}"></td>
+            </tr>
+            <tr>
+                <th>パスワード</th>
+                <td><input type="text" name="customer_password" th:value="${customer.password}"></td>
+            </tr>
+            <tr>
+                <th>状態</th>
+                <td><input type="checkbox" name="is_deleted" th:checked="${customer.deleted==true}">
+                退会する</td>
+            </tr>
+        </table>
+        <input type="submit" value="変更">
+    </form>
 
 </body>
 </html>

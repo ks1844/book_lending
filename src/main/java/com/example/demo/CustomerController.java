@@ -14,21 +14,21 @@ public class CustomerController {
 	@Autowired
 	CustomerRepository customerRepository;
 
-	//	@RequestMapping(value = "/")
-	//	public ModelAndView index(
-	//			ModelAndView mv) {
-	//
-	//		// 全件取得
-	//		List<Customer> customers = customerRepository.findAll();
-	//
-	//		// 会員検索一覧画面へ遷移
-	//		mv.addObject("customers", customers);
-	//		mv.setViewName("search_customer");
-	//		return mv;
-	//	}
+		@RequestMapping(value = "/customer")
+		public ModelAndView index(
+				ModelAndView mv) {
+	
+			// 全件取得
+			List<Customer> customers = customerRepository.findAll();
+	
+			// 会員検索一覧画面へ遷移
+			mv.addObject("customers", customers);
+			mv.setViewName("search_customer");
+			return mv;
+		}
 
 	// 会員登録画面へ遷移
-	@RequestMapping(value = "/showAdd")
+	@RequestMapping(value = "/customer/showAdd")
 	public ModelAndView showAdd(
 			ModelAndView mv) {
 		// 新規登録画面へ遷移
@@ -37,7 +37,7 @@ public class CustomerController {
 	}
 
 	// 会員を登録
-	@RequestMapping(value = "/addCustomer", method = RequestMethod.POST)
+	@RequestMapping(value = "/customer/add", method = RequestMethod.POST)
 	public ModelAndView addCustomer(
 			@RequestParam("name") String name,
 			@RequestParam("tel") String tel,
@@ -59,7 +59,7 @@ public class CustomerController {
 	}
 
 	// 名前、電話番号、メールからあいまい検索
-	@RequestMapping(value = "/searchCustomer")
+	@RequestMapping(value = "/customer/search")
 	public ModelAndView searchCustomer(
 			@RequestParam("name") String customerName,
 			@RequestParam("tel") String customerTel,
@@ -94,7 +94,7 @@ public class CustomerController {
 	}
 
 	// 会員情報の変更画面へ遷移
-	@RequestMapping(value = "/showUpdate")
+	@RequestMapping(value = "/customer/showUpdate")
 	public ModelAndView showUpdate(
 			@RequestParam("customer_id") int customerId,
 			ModelAndView mv) {
@@ -109,7 +109,7 @@ public class CustomerController {
 	}
 
 	// 会員情報の変更
-	@RequestMapping(value = "/updateCustomer", method = RequestMethod.POST)
+	@RequestMapping(value = "/customer/update", method = RequestMethod.POST)
 	public ModelAndView updateCustomer(
 			@RequestParam("customer_id") int customerId,
 			@RequestParam("customer_name") String customerName,
@@ -140,7 +140,7 @@ public class CustomerController {
 	}
 
 	// 退会手続き画面へ遷移
-	@RequestMapping(value = "/showDelete")
+	@RequestMapping(value = "/customer/showDelete")
 	public ModelAndView showDelete(
 			@RequestParam("customer_id") int customerId,
 			ModelAndView mv) {
@@ -155,7 +155,7 @@ public class CustomerController {
 	}
 
 	// 退会
-	@RequestMapping(value = "/deleteCustomer")
+	@RequestMapping(value = "/customer/delete")
 	public ModelAndView deleteCustomer(
 			@RequestParam("customer_id") int customerId,
 			@RequestParam(name = "is_deleted", defaultValue = "false") boolean isDeleted,

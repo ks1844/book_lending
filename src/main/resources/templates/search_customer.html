@@ -2,45 +2,79 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{style.css}">
 <title>会員一覧</title>
 </head>
+
 <body>
-    <h1>会員一覧</h1>
-    <h2>条件検索</h2>
-    <form action="/searchCustomer" method="get">
-        <table>
-            <tr>
-                <th>名前</th>
-                <td><input type="textarea" name="name"></td>
-            </tr>
-            <tr>
-                <th>電話番号</th>
-                <td><input type="textarea" name="tel"></td>
-            </tr>
-            <tr>
-                <th>メールアドレス</th>
-                <td><input type="textarea" name="mail"></td>
-            </tr>
-        </table>
-        <input type="submit" valuy="検索">
-    </form>
-    <h2>検索結果</h2>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>名前</th>
-            <th>電話番号</th>
-            <th>メールアドレス</th>
-            <th>パスワード</th>
-        </tr>
-        <tr th:each="customer:${customers}">
-            <td th:text="${customer.id}"></td>
-            <td th:text="${customer.name}"></td>
-            <td th:text="${customer.tel}"></td>
-            <td th:text="${customer.mail}"></td>
-            <td th:text="${customer.password}"></td>
-        </tr>
-    </table>
-    <a href="/showAdd">新規登録</a>
+    <div th:replace="./header::header"></div>
+    
+    <div class="container">
+        <h1><a href="">会員一覧</a></h1>
+        <div class="sub-container search">
+            <h2>条件検索</h2>
+                <form action="/customer/search" method="get">
+                    <table>
+                        <tr>
+                            <th>名前</th>
+                            <td><input type="textarea" name="name"></td>
+                        </tr>
+                        <tr>
+                            <th>電話番号</th>
+                            <td><input type="textarea" name="tel"></td>
+                        </tr>
+                        <tr>
+                            <th>メールアドレス</th>
+                            <td><input type="textarea" name="mail"></td>
+                        </tr>
+                        <tr>
+                            <th>その他</th>
+                            <td>
+                                <input type="checkbox" name="is_deleted" value="1">
+                                退会済みの会員も含む
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="submit" value="検索" class="btn-submit">
+                </form>
+        </div>
+
+        <div class="sub-container display">
+            <h2>検索結果</h2>
+            <table border="2">
+                <tr>
+                    <th>ID</th>
+                    <th>名前</th>
+                    <th>電話番号</th>
+                    <th>メールアドレス</th>
+                    <th>パスワード</th>
+                    <th>変更</th>
+                    <th>退会</th>
+                </tr>
+                <tr th:each="customer:${customers}">
+                    <td th:text="${customer.id}"></td>
+                    <td th:text="${customer.name}"></td>
+                    <td th:text="${customer.tel}"></td>
+                    <td th:text="${customer.mail}"></td>
+                    <td th:text="${customer.password}"></td>
+                    <td>
+                        <form action="/customer/showUpdate" method="get">
+                            <input type="hidden" name="customer_id" th:value="${customer.id}">
+                            <input type="submit" value="変更" class="btn-update">
+                        </form>
+                    </td>
+                    <td>
+                        <form action="/customer/showDelete" method="get">
+                            <input type="hidden" name="customer_id" th:value="${customer.id}">
+                            <input type="submit" value="退会手続き" class="btn-delete">
+                        </form>
+                    </td>
+                </tr>
+            </table>
+            <button class="btn-add">
+                <a href="/customer/showAdd">新規登録</a>
+            </button>
+        </div>
+    </div>
 </body>
 </html>

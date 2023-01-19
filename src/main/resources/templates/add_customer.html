@@ -2,38 +2,48 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" th:ref="@{style.css}">
 <title>新規会員登録</title>
 </head>
+
 <body>
-    <h1>新規会員登録</h1>
-    <form action="/addCustomer" method="post">
-        <table border="1">
-            <tr>
-                <th>名前</th>
-                <td>
-                    <input type="text" name="name">
-                </td>
-            </tr>
-            <tr>
-                <th>電話番号</th>
-                <td>
-                    <input type="text" name="tel">
-                </td>
-            </tr>
-            <tr>                
-                <th>メールアドレス</th>
-                <td>
-                    <input type="text" name="mail">
-                </td>
-            </tr>
-            <tr>
-                <th>パスワード</th>
-                <td>
-                    <input type="text" name="password">
-                </td>
-            </tr>
-        </table>
-        <input type="submit" value="登録">
-    </form>
+    <div th:replace="./header::header"></div>
+
+    <div class="container">
+        <h1><a href="">新規会員登録</a></h1>
+        <div class="sub-container">
+            <form action="/customer/add" method="post">
+                <table border="1">
+                    <tr>
+                        <th>名前</th>
+                        <td>
+                            <input type="text" name="name" title="名前" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>電話番号</th>
+                        <td>
+                            <input type="tel" name="tel" pattern="[\-\d]{10,}" required
+                            title="半角数字10文字以上">
+                        </td>
+                    </tr>
+                    <tr>                
+                        <th>メールアドレス</th>
+                        <td>
+                            <input type="email" name="mail" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>パスワード</th>
+                        <td>
+                            <input type="text" name="password" pattern="[\w]{4,}" 
+                            title="英語の大文字、小文字、数字が4文字以上のパスワードを作成してください。" required>
+                        </td>
+                    </tr>
+                </table>
+                <input type="submit" value="登録" class="btn-add">
+            </form>
+        </div>
+    </div>
 </body>
 </html>
