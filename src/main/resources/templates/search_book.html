@@ -2,51 +2,63 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/style.css}">
 <title>資料検索</title>
 </head>
 <body>
-    <h1>資料検索</h1>
-    <h2>条件検索</h2>
-    <form action="/book/search" method="get">
-        <table>
-            <tr>
-                <th>書籍名</th>
-                <td><input type="textarea" name="book_name"></td>
-            </tr>
-            <tr>
-                <th>著者</th>
-                <td><input type="textarea" name="book_author"></td>
-            </tr>
-            <tr>
-                <th>カテゴリ</th>
-                <td>
-                    <select name="category_name">
-                        <option value="">---</option>
-                        <option th:each="category:${categories}" 
-                        th:value="${category.name}" 
-                        th:selected="${category.id == id}" 
-                        th:lnline="text">[[${category.name}]]</option>
-                    </select>
-                </td>
-            </tr>
-        </table>
-        <input type="submit" value="検索">
-    </form>
-    <h2>資料一覧</h2>
-    <table border="1">
-        <tr>
-            <th>書籍ID</th>
-            <th>書籍名</th>
-            <th>著者</th>
-            <th>カテゴリ</th>
-        </tr>
-        <tr th:each="book:${books}">
-            <td th:text="${book.id}"></td>
-            <td th:text="${book.name}"></td>
-            <td th:text="${book.author}"></td>
-            <td th:text="${book.category}"></td>
-        </tr>
-    </table>
-    <a href="/book/showAdd">新規登録</a>
+    <div th:replace="./header::header"></div>
+    
+    <div class="container">
+        <h1>資料検索</h1>
+        <div class="sub-container search">
+            <h2>条件検索</h2>
+            <form action="/book/search" method="get">
+                <table>
+                    <tr>
+                        <th>書籍名</th>
+                        <td><input type="textarea" name="book_name"></td>
+                    </tr>
+                    <tr>
+                        <th>著者</th>
+                        <td><input type="textarea" name="book_author"></td>
+                    </tr>
+                    <tr>
+                        <th>カテゴリ</th>
+                        <td>
+                            <select name="category_name">
+                                <option value="">---</option>
+                                <option th:each="category:${categories}" 
+                                th:value="${category.name}" 
+                                th:selected="${category.id == id}" 
+                                th:lnline="text">[[${category.name}]]</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+                <input type="submit" value="検索" class="btn-submit">
+            </form>
+        </div>
+        <div class="sub-container display">
+            <h2>資料一覧</h2>
+            <table border="1">
+                <tr>
+                    <th>書籍ID</th>
+                    <th>書籍名</th>
+                    <th>著者</th>
+                    <th>カテゴリ</th>
+                </tr>
+                <tr th:each="book:${books}">
+                    <td th:text="${book.id}"></td>
+                    <!-- <td th:text="${book.name}"><a th:href="/book/show/+${book.id}"></a></td> -->
+                    <td><a th:text="${book.name}" th:href="'/book/show/'+${book.id}"></a></td>
+                    <td th:text="${book.author}"></td>
+                    <td th:text="${book.category}"></td>
+                </tr>
+            </table>
+            <button class="btn-add">
+                <a href="/book/showAdd">新規登録</a>
+            </button>
+        </div>
+    </div>
 </body>
 </html>

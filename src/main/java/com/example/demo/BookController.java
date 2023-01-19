@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -112,31 +113,17 @@ public class BookController {
 			@RequestParam(name = "category_name", defaultValue = "") String categoryName,
 			ModelAndView mv) {
 
-		// あいまい検索のため、文字列の前後に%をつける
-		bookName = "%" + bookName + "%";
-		bookAuthor = "%" + bookAuthor + "%";
-
 		List<BookDisplay> books;
 
-		System.err.println(bookName);
-		System.err.println(bookAuthor);
-		System.err.println(categoryName);
-
-		// 書籍名、著者名、カテゴリからあいまい検索
+		// 書籍名、著者名をあいまい検索
 		if (categoryName.isEmpty()) {
 			// カテゴリ名が指定されていないとき、カテゴリ名で検索を行わない
 			System.err.println("no category");
-			books = bookDisplayRepository.findByNameLike(categoryName);
+			books = bookDisplayRepository.findByNameLikeAndByAuthorLike(bookName, bookAuthor);
 		} else {
 			books = bookDisplayRepository.findByNameLikeAndByAuthorLikeAndByCategoryLike(bookName,
 					bookAuthor, categoryName);
-
 		}
-
-		//		System.err.println(books.size());
-		//		for (BookDisplay book : books) {
-		//			System.err.println(book.getName());
-		//		}
 
 		// カテゴリを全件取得
 		List<Category> categories = categoryRepository.findAll();
@@ -150,13 +137,20 @@ public class BookController {
 	}
 
 	// 特定の書籍のみの書籍情報画面へ遷移
-	@RequestMapping(value="/book/show")
+	@RequestMapping(value = "/book/show/{book_id}")
 	public ModelAndView showCustomer(
-			@RequestParam("book_id") int bookId,
+			@PathVariable("book_id") int bookId,
 			ModelAndView mv) {
+
+		// bookinfoのIDから書籍情報を取得
+		BookDisplay bookInfo = bookDisplayRepository.findById(bookId).get(0);
 		
-		// 特定の特定の書籍のみの書籍情報画面へ遷移
-		mv.addObject("book_id", bookId);
+		// 同種で複数所蔵している書籍を全件取得
+//		BookDisplay books=
+
+		// 特定の書籍のみの書籍情報画面へ遷移
+		mv.addObject("bookInfo", bookInfo);
+//		mv.addObject("books", books);
 		mv.setViewName("show_book");
 		return mv;
 	}
@@ -165,33 +159,33 @@ public class BookController {
 	@RequestMapping(value = "/book/showUpdate")
 	public ModelAndView showUpdate(
 			ModelAndView mv) {
-		
+
 		// 書籍を全件取得
 		List<BookDisplay> books = bookDisplayRepository.findAll();
 
 		// カテゴリを全件取得
 		List<Category> categories = categoryRepository.findAll();
-		
+
 		// 書籍情報更新画面へ遷移
 		mv.addObject("books", books);
 		mv.addObject("categories", categories);
-		mv.setViewName("update_book");		
+		mv.setViewName("update_book");
 		return mv;
 	}
 
 	// 書籍情報を変更
-	@RequestMapping(value="/book/update")
+	@RequestMapping(value = "/book/update")
 	public ModelAndView update(
 			ModelAndView mv) {
-		
+
 		// 書籍情報を更新
-		
+
 		// 書籍を全件取得
 		List<BookDisplay> books = bookDisplayRepository.findAll();
 
 		// カテゴリを全件取得
 		List<Category> categories = categoryRepository.findAll();
-		
+
 		// 書籍一覧画面へ遷移
 		mv.addObject("books", books);
 		mv.addObject("categories", categories);
@@ -199,29 +193,28 @@ public class BookController {
 		return mv;
 	}
 
-	
-	@RequestMapping(value="/book/showDelete")
+	@RequestMapping(value = "/book/showDelete")
 	public ModelAndView showDelete(
 			ModelAndView mv) {
-		
+
 		// 書籍削除画面へ遷移
 		mv.setViewName("delete_book");
 		return mv;
 	}
 
 	// 書籍を削除
-	@RequestMapping(value="/book/delete")
+	@RequestMapping(value = "/book/delete")
 	public ModelAndView delete(
 			ModelAndView mv) {
-		
+
 		// 書籍を削除
-		
+
 		// 書籍を全件取得
 		List<BookDisplay> books = bookDisplayRepository.findAll();
 
 		// カテゴリを全件取得
 		List<Category> categories = categoryRepository.findAll();
-		
+
 		// 書籍検索画面へ遷移
 		mv.addObject("books", books);
 		mv.addObject("categories", categories);

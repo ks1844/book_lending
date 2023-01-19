@@ -2,33 +2,36 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" th:href="@{style.css}">
+<link rel="stylesheet" th:href="@{/style.css}">
 <title>退会手続き</title>
 </head>
 <body>
     
     <div th:replace="./header::header"></div>
 
-    <h1>退会手続き</h1>
     <div class="container">
-        <!-- 会員が退会済みのとき -->
-        <div th:if="${customer.deleted==true}">
-            <p th:text="${customer.name}+'さんは既に退会済みです。'"></p>
-            <form action="/customer/search" method="get">
-                <input type="submit" value="戻る">
-            </form>
-        </div>
+        <h1><a href="">退会手続き</a></h1>
+        <div class="sub-container">
+            <!-- 会員が退会済みのとき -->
+            <div th:if="${customer.deleted==true}">
+                <p th:text="${customer.name}+'さんは既に退会済みです。'"></p>
+                <form action="/customer/search" method="get">
+                    <input type="submit" value="戻る">
+                </form>
+            </div>
 
-        <!-- 会員の退会選択 -->
-        <div th:if="${customer.deleted==false}">
-            <p th:text="${customer.name}+'さんを退会させてもよろしいですか?'"></p>
-            <form action="/customer/delete" method="get" style="display: inline">
-                <input type="hidden" name="customer_id" th:value="${customer.id}">
-                <input type="submit" value="はい">
-            </form>
-            <form action="/customer/search" method="get" style="display: inline">
-                <input type="submit" value="いいえ">
-            </form>
+            <!-- 会員の退会選択 -->
+            <div th:if="${customer.deleted==false}">
+                <p th:text="${customer.name}+'さんを退会させてもよろしいですか?'"></p>
+                <br>
+                <form action="/customer/delete" method="get" style="display: inline">
+                    <input type="hidden" name="customer_id" th:value="${customer.id}">
+                    <input type="submit" value="はい" class="btn-submit">
+                </form>
+                <form action="/customer/search" method="get" style="display: inline">
+                    <input type="submit" value="いいえ" class="btn-delete">
+                </form>
+            </div>
         </div>
     </div>
 </body>

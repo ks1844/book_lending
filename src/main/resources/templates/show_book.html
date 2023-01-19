@@ -2,19 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/style.css}">
 <title>書籍情報</title>
 </head>
 <body>
-    <h1>書籍情報</h1>
-    <table border="1">
-        <tr>
-            <th>書籍名</th>
-            <td th:text="${book.name}"></td>
-        </tr>
-        <tr>
-            <
-        </tr>
-    </table>
+    <div th:replace="./header::header"></div>
+
+    <div class="container">
+        <h1>書籍情報</h1>
+        <div class="sub-container">
+            <table border="1">
+                <tr>
+                    <th>書籍名</th>
+                    <td th:text="${book.name}"></td>
+                </tr>
+                <tr>
+                    <th>著者</th>
+                    <td th:text="${book.author}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
 
 </body>
 </html>

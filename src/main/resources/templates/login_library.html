@@ -1,10 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/style.css}">
+<title>管理者ログイン</title>
 </head>
 <body>
+    <div th:replace="./header::header"></div>
+
+    <div class="container">
+        <h1>管理者ログイン</h1>
+        <div class="sub-container">
+            <form action="/library/login" method="get">
+                <table>
+                    <tr>
+                        <th>メールアドレス</th>
+                        <td>
+                            <input type="email" name="mail">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>パスワード</th>
+                        <td>
+                            <input type="password" name="password">
+                        </td>
+                    </tr>
+                </table>
+                <input type="submit" value="ログイン" class="btn-submit">
+            </form>
+        </div>
+        <a href="/library/showAdd">新規登録</a>
+    </div>
 
 </body>
 </html>
