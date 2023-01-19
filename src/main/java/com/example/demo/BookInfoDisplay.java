@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class BookDisplay {
+public class BookInfoDisplay {
 	@Id
 	@Column(name = "bookinfo_id")
 	private int id;
@@ -25,7 +25,7 @@ public class BookDisplay {
 	@Column(name = "category_name")
 	private String category;
 
-	public BookDisplay(String name, String author, String category) {
+	public BookInfoDisplay(String name, String author, String category) {
 		this.name = name;
 		this.author = author;
 		this.category = category;

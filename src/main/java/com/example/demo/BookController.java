@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class BookController {
 
 	@Autowired
-	BookDisplayRepository bookDisplayRepository;
+	BookInfoDisplayRepository bookInfoDisplayRepository;
 
 	@Autowired
 	CategoryRepository categoryRepository;
@@ -36,7 +36,7 @@ public class BookController {
 			ModelAndView mv) {
 
 		// 書籍を全件取得
-		List<BookDisplay> bookDisply = bookDisplayRepository.findAll();
+		List<BookInfoDisplay> bookDisply = bookInfoDisplayRepository.findAll();
 
 		// カテゴリを全件取得
 		List<Category> categories = categoryRepository.findAll();
@@ -93,7 +93,7 @@ public class BookController {
 		bookRepository.save(book);
 
 		// 書籍一覧を全件取得
-		List<BookDisplay> books = bookDisplayRepository.findAll();
+		List<BookInfoDisplay> books = bookInfoDisplayRepository.findAll();
 
 		// カテゴリを全件取得
 		List<Category> categories = categoryRepository.findAll();
@@ -113,15 +113,15 @@ public class BookController {
 			@RequestParam(name = "category_name", defaultValue = "") String categoryName,
 			ModelAndView mv) {
 
-		List<BookDisplay> books;
+		List<BookInfoDisplay> books;
 
 		// 書籍名、著者名をあいまい検索
 		if (categoryName.isEmpty()) {
 			// カテゴリ名が指定されていないとき、カテゴリ名で検索を行わない
 			System.err.println("no category");
-			books = bookDisplayRepository.findByNameLikeAndByAuthorLike(bookName, bookAuthor);
+			books = bookInfoDisplayRepository.findByNameLikeAndByAuthorLike(bookName, bookAuthor);
 		} else {
-			books = bookDisplayRepository.findByNameLikeAndByAuthorLikeAndByCategoryLike(bookName,
+			books = bookInfoDisplayRepository.findByNameLikeAndByAuthorLikeAndByCategoryLike(bookName,
 					bookAuthor, categoryName);
 		}
 
@@ -143,7 +143,7 @@ public class BookController {
 			ModelAndView mv) {
 
 		// bookinfoのIDから書籍情報を取得
-		BookDisplay bookInfo = bookDisplayRepository.findById(bookId).get(0);
+		BookInfoDisplay bookInfo = bookInfoDisplayRepository.findById(bookId).get(0);
 		
 		// 同種で複数所蔵している書籍を全件取得
 //		BookDisplay books=
@@ -161,7 +161,7 @@ public class BookController {
 			ModelAndView mv) {
 
 		// 書籍を全件取得
-		List<BookDisplay> books = bookDisplayRepository.findAll();
+		List<BookInfoDisplay> books = bookInfoDisplayRepository.findAll();
 
 		// カテゴリを全件取得
 		List<Category> categories = categoryRepository.findAll();
@@ -181,7 +181,7 @@ public class BookController {
 		// 書籍情報を更新
 
 		// 書籍を全件取得
-		List<BookDisplay> books = bookDisplayRepository.findAll();
+		List<BookInfoDisplay> books = bookInfoDisplayRepository.findAll();
 
 		// カテゴリを全件取得
 		List<Category> categories = categoryRepository.findAll();
@@ -210,7 +210,7 @@ public class BookController {
 		// 書籍を削除
 
 		// 書籍を全件取得
-		List<BookDisplay> books = bookDisplayRepository.findAll();
+		List<BookInfoDisplay> books = bookInfoDisplayRepository.findAll();
 
 		// カテゴリを全件取得
 		List<Category> categories = categoryRepository.findAll();
