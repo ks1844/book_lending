@@ -1,0 +1,122 @@
+@charset "UTF-8";
+
+*{
+    margin: 0px;
+}
+
+header{
+    height: 50px;
+    background-color: #00AAC3;
+    padding-top: 10px;
+    color: ivory;
+}
+
+header .header{
+    text-align: center;
+}
+
+header span a{
+    color: black;
+    text-decoration: none;
+    color: ivory;
+}
+
+header .title{
+    font-size: 30px;
+}
+
+header .menu{
+    font-size: 20px;
+    margin-left: 200px;
+}
+
+header .menu a{
+    margin-left: 10px;
+}
+
+body{
+    background-color: ghostwhite;
+}
+
+h1 a{
+    color: black;
+    text-decoration: none;
+}
+
+h2{
+    margin-bottom: 20px;
+}
+
+.container{
+    margin:40px auto;
+    width:800px;
+    padding:20px 60px;
+    border:1px solid #ddd;
+    background-color: #efefef;
+}
+
+.sub-container{
+    margin: 50px auto;
+    border: 2px solid gray;
+    padding: 20px;
+}
+
+.search form{
+    width: 500px;
+    margin: auto;
+}
+
+.btn-submit{
+    color: white;
+    background-color: #00AAC3;
+    border-radius: 5px;
+    border-color: gray;
+    margin-top: 10px;
+    margin: 0 0 0 auto;
+}
+
+.btn-update{
+    color: white;
+    background-color: #00AAC3;
+    border-radius: 5px;
+    border-color: gray;
+}
+
+.btn-delete{
+    color: white;
+    background-color: coral;
+    border-radius: 5px;
+    border-color: gray;
+}
+
+.btn-add{
+    background-color: #00AAC3;
+    border-radius: 5px;
+    border-color: gray;
+    margin-top: 10px;
+}
+
+.btn-add a{
+    color: white;
+    text-decoration: none;
+}
+
+.display table{
+    padding: 20px;
+    border-radius: 5px;
+}
+
+tr{
+    border: none;
+}
+
+th{
+    border: none;
+    background-color: #00AAC3;
+}
+
+td{
+    border: none;
+    padding-top: 10px;
+    background-color: aliceblue;
+}
