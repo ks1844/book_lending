@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
 @Repository
 public interface BookDisplayRepository extends JpaRepository<BookDisplay, Integer>{
 	
@@ -22,7 +23,7 @@ public interface BookDisplayRepository extends JpaRepository<BookDisplay, Intege
 			+ "from books as b "
 			+ "inner join libraries as l on b.library_id = l.library_id "
 			+ "inner join statuses as s on b.status_id = s.status_id "
-			+ "where b.bookinfo_id = :book_id",nativeQuery = true)
+			+ "where b.book_id = :book_id",nativeQuery = true)
 	List<BookDisplay> findById(@Param("book_id") int bookId);
 
 }

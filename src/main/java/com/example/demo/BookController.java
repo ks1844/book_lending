@@ -181,7 +181,8 @@ public class BookController {
 		Book book = bookRepository.findById(bookId).get(0);
 
 		// 書籍を削除
-		book.setDeleted(false);
+		book.setDeleted(true);
+		bookRepository.save(book);
 
 		// 書籍を全件取得
 		List<BookInfoDisplay> books = bookInfoDisplayRepository.findAll();
