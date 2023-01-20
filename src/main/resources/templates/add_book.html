@@ -2,58 +2,56 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>書籍を新規登録</title>
+<link rel="stylesheet" th:href="@{/style.css}">
+<title>書籍の追加</title>
 </head>
 <body>
-    <h1>書籍を新規登録</h1>
-    <form action="/book/add" method="get">
-        <table border="1">
-            <tr>
-                <th>書籍名</th>
-                <td><input type="text" name="book_name"></td>
-            </tr>
-            <tr>
-                <th>著者</th>
-                <td><input type="text" name="book_author"></td>
-            </tr>
-            <tr>
-                <th>カテゴリ</th>
-                <td>
-                    <select name="category_id">
-                        <option>---</option>
-                        <option th:each="category:${categories}" 
-                        th:value="${category.id}" 
-                        th:selected="${category.id == id}" 
-                        th:lnline="text">[[${category.name}]]</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <th>所蔵する図書館</th>
-                <td>
-                    <select name="library_id">
-                        <option>---</option>
-                        <option th:each="library:${libraries}" 
-                        th:value="${library.id}" 
-                        th:selected="${library.id == id}" 
-                        th:lnline="text">[[${library.name}]]</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <th>状態</th>
-                <td>
-                    <select name="status_id">
-                        <option>---</option>
-                        <option th:each="status:${statuses}" 
-                        th:value="${status.id}" 
-                        th:selected="${status.id == id}" 
-                        th:lnline="text">[[${status.name}]]</option>
-                </td>
-            </tr>
-        </table>     
-        <input type="submit" value="新規登録">
-    </form>
+    <div th:replace="./header::header"></div>
+
+    <div class="container">
+        <h1>書籍の追加</h1>
+        <div class="sub-container">
+            <h2>書籍情報</h2>
+            <table border="1">
+                <tr>
+                    <th>書籍ID</th>
+                    <td th:text="${bookinfo.id}"></td>
+                </tr>
+                <tr>
+                    <th>書籍名</th>
+                    <td th:text="${bookinfo.name}"></td>
+                </tr>
+                <tr>
+                    <th>著者</th>
+                    <td th:text="${bookinfo.author}"></td>
+                </tr>
+                <tr>
+                    <th>カテゴリ</th>
+                    <td th:text="${bookinfo.category}"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="sub-container">
+            <form action="/book/add" method="get">
+                <table>
+                    <tr>
+                        <th>図書館</th>
+                        <td>
+                            <select name="library_id">
+                                <option value="">---</option>
+                                <option th:each="library:${libraries}" 
+                                th:value="${library.id}" 
+                                th:selected="${library.id == id}" 
+                                th:lnline="text">[[${library.name}]]</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+                <input type="hidden" name="bookinfo_id" th:value="${bookinfo.id}">
+                <input type="submit" value="新しい書籍を登録" class="btn-add">
+            </form>
+        </div>
+    </div>
 
 </body>
 </html>

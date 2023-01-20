@@ -3,12 +3,10 @@ package com.example.demo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class BookInfoDisplay {
@@ -26,6 +24,13 @@ public class BookInfoDisplay {
 	private String category;
 
 	public BookInfoDisplay(String name, String author, String category) {
+		this.name = name;
+		this.author = author;
+		this.category = category;
+	}
+
+	public BookInfoDisplay(int id, String name, String author, String category) {
+		this.id = id;
 		this.name = name;
 		this.author = author;
 		this.category = category;

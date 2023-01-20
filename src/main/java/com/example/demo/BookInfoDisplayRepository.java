@@ -37,8 +37,8 @@ public interface BookInfoDisplayRepository extends JpaRepository<BookInfoDisplay
 	@Query(value="select bi.bookinfo_id,bi.book_name,bi.book_author,c.category_name  "
 			+ "from bookinfo as bi "
 			+ "inner join categories as c on bi.category_id = c.category_id "
-			+ "where bi.bookinfo_id = :id",nativeQuery = true)
-	List<BookInfoDisplay> findById(@Param("id") int id);
+			+ "where bi.bookinfo_id = :bookinfo_id",nativeQuery = true)
+	List<BookInfoDisplay> findById(@Param("bookinfo_id") int bookInfoId);
 	
 
 }

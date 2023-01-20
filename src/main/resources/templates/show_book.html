@@ -9,9 +9,14 @@
     <div th:replace="./header::header"></div>
 
     <div class="container">
-        <h1>書籍情報</h1>
+        <h1><a href="">書籍情報</a></h1>
         <div class="sub-container">
+            <h2>書籍情報</h2>
             <table border="1">
+                <tr>
+                    <th>書籍ID</th>
+                    <td th:text="${bookInfo.id}"></td>
+                </tr>
                 <tr>
                     <th>書籍名</th>
                     <td th:text="${bookInfo.name}"></td>
@@ -20,9 +25,50 @@
                     <th>著者</th>
                     <td th:text="${bookInfo.author}"></td>
                 </tr>
+                <tr>
+                    <th>カテゴリ</th>
+                    <td th:text="${bookInfo.category}"></td>
+                </tr>
             </table>
+            <form action="/bookinfo/showUpdate" method="get">
+                <input type="hidden" name="bookinfo_id" th:value="${bookInfo.id}">
+                <input type="submit" value="書籍情報を更新" class="btn-submit">
+            </form>
         </div>
-    </div>
+        <div class="sub-container">
+            <h2>所蔵している書籍一覧</h2>
+            <table border="1">
+                <tr>
+                    <th>固有ID</th>
+                    <th>図書館</th>
+                    <th>状態</th>
+                    <th>更新</th>
+                    <th>削除</th>
+                </tr>
+                <tr th:each="book:${books}">
+                    <td th:text="${book.id}"></td>
+                    <td th:text="${book.library}"></td>
+                    <td th:text="${book.status}"></td>
+                    <td>
+                        <form action="/book/showUpdate" method="get">
+                            <input type="hidden" name="book_id" th:value="${book.id}">
+                            <input type="submit" value="更新" class="btn-update">
+                        </form>
+                    </td>
+                    <td>
+                        <form action="/book/showDelete" method="get">
+                            <input type="hidden" name="book_id" th:value="${book.id}">
+                            <input type="submit" value="削除" class="btn-delete">
+                        </form>
+                    </td>
+                </tr>
+            </table>
+            <form action="/book/showAdd" method="get">
+                <input type="hidden" name="bookinfo_id" th:value="${bookInfo.id}">
+                <input type="submit" value="新しい書籍を登録" class="btn-add">
+            </form>
+        </div>
 
+    </div>
 </body>
 </html>

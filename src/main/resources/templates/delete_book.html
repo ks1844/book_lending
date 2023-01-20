@@ -1,10 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/style.css}">
+<title>書籍の削除</title>
 </head>
 <body>
+    <div th:replace="./header::header"></div>
+
+    <div class="container">
+        <h1><a href="">書籍の削除</a></h1>
+        <!-- 書籍が削除済みのとき -->
+        
+
+        <!-- 書籍が貸出中のとき -->
+
+        <!-- 書籍の削除処理 -->
+        <div class="sub-container">
+            <h2>以下の書籍を削除しますか?</h2>
+            <table>
+                <tr>
+                    <th>書籍ID</th>
+                    <td th:text="${bookInfo.id}"></td>
+                </tr>
+                <tr>
+                    <th>書籍固有ID</th>
+                    <td th:text="${book.id}"></td>
+                </tr>
+                <tr>
+                    <th>書籍名</th>
+                    <td th:text="${bookInfo.name}"></td>
+                </tr>
+                <tr>
+                    <th>著者</th>
+                    <td th:text="${bookInfo.author}"></td>
+                </tr>
+                <tr>
+                    <th>所蔵している図書館</th>
+                    <td th:text="${book.library}"></td>
+                </tr>
+                <tr>
+                    <th>状態</th>
+                    <td th:text="${book.status}"></td>
+                </tr>
+            </table>
+            <form action="/book/delete" method="get" style="display: inline">
+                <input type="hidden" name="book_id" th:value="${book.id}">
+                <input type="submit" value="削除" class="btn-delete">
+            </form>
+            <form action="/book" method="get" style="display: inline">
+                <input type="submit" value="キャンセル" class="btn-submit">
+            </form>
+        </div>
+
+    </div>
 
 </body>
 </html>

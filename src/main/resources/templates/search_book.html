@@ -9,10 +9,10 @@
     <div th:replace="./header::header"></div>
     
     <div class="container">
-        <h1>資料検索</h1>
+        <h1><a href="">資料検索</a></h1>
         <div class="sub-container search">
             <h2>条件検索</h2>
-            <form action="/book/search" method="get">
+            <form action="/bookinfo/search" method="get">
                 <table>
                     <tr>
                         <th>書籍名</th>
@@ -49,7 +49,6 @@
                 </tr>
                 <tr th:each="book:${books}">
                     <td th:text="${book.id}"></td>
-                    <!-- <td th:text="${book.name}"><a th:href="/book/show/+${book.id}"></a></td> -->
                     <td><a th:text="${book.name}" th:href="'/book/show/'+${book.id}"></a></td>
                     <td th:text="${book.author}"></td>
                     <td th:text="${book.category}"></td>
