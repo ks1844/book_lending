@@ -53,7 +53,7 @@
                 </tr>
                 <tr th:each="customer:${customers}">
                     <td th:text="${customer.id}"></td>
-                    <td th:text="${customer.name}"></td>
+                    <td><a th:text="${customer.name}" th:href="'/customer/show/'+${customer.id}"></a></td>
                     <td th:text="${customer.tel}"></td>
                     <td th:text="${customer.mail}"></td>
                     <td th:text="${customer.password}"></td>

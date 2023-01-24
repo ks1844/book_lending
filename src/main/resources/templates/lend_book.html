@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/style.css}">
+<title>貸出登録</title>
+</head>
+<!-- <body>
+    
+    <div th:replace="./header::header"></div>
+
+    <div class="container">
+        <h1><a href="">貸出登録</a></h1>
+        <div class="sub-container">
+            <p th:text="${message}" style="color: red"></p>
+            <table>
+                <tr>
+                    <th>会員ID</th>
+                    <td>
+                        <input type="text" name="customer_id">
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>名前</th>
+                    <td th:if="${customer}" th:text="${customer.name}"></td>
+                </tr>                  
+                <tr>
+                    <th>メール</th>
+                    <td th:if="${customer}" th:text="${customer.mail}"></td>
+                </tr>
+                <tr>
+                    <th>電話番号</th>
+                    <td th:if="${customer}" th:text="${customer.tel}"></td>
+                </tr>
+                <tr>
+                    <th>書籍固有ID</th>
+                    <td>
+                        <input type="text" name="book_id">
+                    </td>
+                </tr>
+                <tr>
+                    <th>書籍名</th>
+                    <td th:if="${book}" th:text="${bookinfo.name}"></td>
+                </tr>
+                <tr>
+                    <th>著者</th>
+                    <td th:if="${book}" th:text="${bookinfo.author}"></td>
+                </tr>
+                <tr>
+                    <th>カテゴリ</th>
+                    <td th:if="${book}" th:text="${bookinfo.category}"></td>
+                </tr>
+
+            </table>
+            <form action="/lending/search" method="get">
+                <input type="hidden" name="customer_id">
+                <input type="hidden" name="book">
+                <input type="submit" value="会員・書籍検索" formaction="/lending/seach" class="btn-submit">
+            </form>
+
+            <table>
+                <tr>
+                    <th>貸出日時</th>
+                    <td>
+                        <input type="date" name="date" max="9999-12-31">
+                    </td>
+                </tr>
+            </table>
+            <form action="/lending/lend" method="get">
+                <input type="hidden" name="customer_id">
+                <input type="hidden" name="book">
+                <input type="submit" value="貸出登録" class="btn-submit">
+            </form>
+        </div>
+    </div>
+
+</body> -->
+<body>
+    
+    <div th:replace="./header::header"></div>
+
+    <div class="container">
+        <h1><a href="">貸出登録</a></h1>
+        <div class="sub-container">
+            
+            <form action="/lending/confirm" method="get">
+                <p th:text="${message}" style="color: red"></p>
+                <table>
+                    <tr>
+                        <th>会員ID</th>
+                        <td>
+                            <input type="text" name="customer_id">
+
+                        </td>
+                    </tr>
+                    <!-- <tr>
+                        <th>名前</th>
+                        <td th:if="${customer}" th:text="${customer.name}"></td>
+                    </tr>                  
+                    <tr>
+                        <th>メール</th>
+                        <td th:if="${customer}" th:text="${customer.mail}"></td>
+                    </tr>
+                    <tr>
+                        <th>電話番号</th>
+                        <td th:if="${customer}" th:text="${customer.tel}"></td>
+                    </tr> -->
+                    <tr>
+                        <th>書籍固有ID</th>
+                        <td>
+                            <input type="text" name="book_id">
+                        </td>
+                    </tr>
+                    <!-- <tr>
+                        <th>書籍名</th>
+                        <td th:if="${book}" th:text="${bookinfo.name}"></td>
+                    </tr>
+                    <tr>
+                        <th>著者</th>
+                        <td th:if="${book}" th:text="${bookinfo.author}"></td>
+                    </tr>
+                    <tr>
+                        <th>カテゴリ</th>
+                        <td th:if="${book}" th:text="${bookinfo.category}"></td>
+                    </tr> -->
+
+                </table>
+                <!-- <input type="submit" value="会員・書籍検索" formaction="/lending/seach" class="btn-submit"> -->
+
+                <table>
+                    <tr>
+                        <th>貸出日時</th>
+                        <td>
+                            <input type="date" name="date" max="9999-12-31">
+                        </td>
+                    </tr>
+                </table>
+
+                <input type="submit" value="登録確認" class="btn-submit">
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

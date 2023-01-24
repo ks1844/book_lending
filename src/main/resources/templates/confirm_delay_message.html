@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/style.css}">
+<title>メッセージ内容の確認
+</title>
+</head>
+<body>
+    <div th:replace="./header::header"></div>
+
+    <div class="container">      
+        <h1><a href="">貸出登録</a></h1>
+        <div class="sub-container">
+            <h2>貸出内容の確認</h2>
+            <table>
+                <tr>
+                    <th>名前</th>
+                    <td th:text="${history.customerName}"></td>
+                </tr>
+                <tr>
+                    <th>書籍名</th>
+                    <td th:text="${history.bookName}"></td>
+                </tr>
+                <tr>
+                    <th>著者</th>
+                    <td th:text="${history.bookAuthor}"></td>
+                </tr>
+                <tr>
+                    <th>貸出期限</th>
+                    <td th:text="${date}"></td>
+                </tr>
+                <tr>
+                    <th>メッセージ内容</th>
+                    <td th:utext="${message}"></td>
+                </tr>
+            </table>
+            <form action="/delay/sendMessage" method="get">
+                <input type="hidden" name="history_id" th:value="${history.id}">
+                <input type="hidden" name="message" th:value="${message}">
+                <input type="submit" value="メッセージを送る" class="btn-submit">
+            </form>
+
+    </div>
+
+</body>
+</html>

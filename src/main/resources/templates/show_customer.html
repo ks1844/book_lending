@@ -1,10 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/style.css}">
+<title>会員情報</title>
 </head>
 <body>
+    
+    <div th:replace="./header::header"></div>
+
+    <div class="container">
+        <h1>会員情報</h1>
+        <div class="sub-container">
+            <h2>個人情報</h2>
+            <table>
+                <tr>
+                    <th>名前</th>
+                    <td th:text="${customer.name}"></td>
+                </tr>
+                <tr>
+                    <th>メールアドレス</th>
+                    <td th:text="${customer.mail}"></td>
+                </tr>
+                <tr>
+                    <th>電話番号</th>
+                    <td th:text="${customer.tel}"></td>
+                </tr>
+                <tr>
+                    <th>パスワード</th>
+                    <td th:text="${customer.password}"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="sub-container" th:if="${message}" th:each="message:${messages}">
+            <p th:utext="${message}" style="color: red;"></p>
+        </div>
+        <div class="sub-container">
+            <h2>この会員の貸出履歴</h2>
+            <table>
+                <tr>
+                    <th>履歴ID</th>
+                    <th>借りている会員</th>
+                    <th>書籍名</th>
+                    <th>著者</th>
+                    <th>カテゴリ</th>
+                    <th>状態</th>
+                    <th>貸出日付</th>
+                    <th>所蔵図書館</th>
+                </tr>
+                <tr th:each="history:${histories}">
+                    <span th:if="${history.statusName} == '貸出中'">
+                        <td th:class="lending" th:text="${history.id}"></td>
+                        <td th:class="lending" th:text="${history.customerName}"></td>
+                        <td th:class="lending" th:text="${history.bookName}"></td>
+                        <td th:class="lending" th:text="${history.bookAuthor}"></td>
+                        <td th:class="lending" th:text="${history.categoryName}"></td>
+                        <td th:class="lending" th:text="${history.statusName}"></td>
+                        <td th:class="lending" th:text="${history.historyDate}"></td>
+                        <td th:class="lending" th:text="${history.libraryName}"></td>
+                    </span>                   
+                    <span th:if="${history.statusName} != '貸出中'">
+                        <td th:text="${history.id}"></td>
+                        <td th:text="${history.customerName}"></td>
+                        <td th:text="${history.bookName}"></td>
+                        <td th:text="${history.bookAuthor}"></td>
+                        <td th:text="${history.categoryName}"></td>
+                        <td th:text="${history.statusName}"></td>
+                        <td th:text="${history.historyDate}"></td>
+                        <td th:text="${history.libraryName}"></td>
+                    </span>
+                </tr>
+            </table>
+
+
+        </div>        
+
+    </div>
 
 </body>
 </html>

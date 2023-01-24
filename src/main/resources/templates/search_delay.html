@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/style.css}">
+<title>Insert title here</title>
+</head>
+<body>
+    <div th:replace="./header::header"></div>
+
+    <div class="container">
+        <h1>延滞履歴一覧</h1>
+        <div class="sub-container">
+        <h2>延滞している貸出履歴</h2>
+            <table>
+                <tr>
+                    <th>履歴ID</th>
+                    <th>借りている会員</th>
+                    <th>書籍名</th>
+                    <th>著者</th>
+                    <th>カテゴリ</th>
+                    <th>状態</th>
+                    <th>貸出日付</th>
+                    <th>所蔵図書館</th>
+                    <th>延滞履歴対応</th>
+                </tr>
+                <tr th:each="history:${histories}">
+                    <td th:text="${history.id}"></td>
+                    <td th:text="${history.customerName}"></td>
+                    <td th:text="${history.bookName}"></td>
+                    <td th:text="${history.bookAuthor}"></td>
+                    <td th:text="${history.categoryName}"></td>
+                    <td th:text="${history.statusName}"></td>
+                    <td th:text="${history.historyDate}"></td>
+                    <td th:text="${history.libraryName}"></td>
+                    <td>
+                        <form action="/delay/showMessage" method="get">
+                            <input type="hidden" name="history_id" th:value="${history.id}">
+                            <input type="submit" value="メッセージを送る" class="btn-submit">
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

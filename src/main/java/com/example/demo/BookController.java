@@ -250,8 +250,5 @@ public class BookController {
 
 	}
 
-	// 書籍情報追加画面へ遷移
-
-	// 書籍情報の追加
 
 }

@@ -17,4 +17,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 	// 会員IDから会員情報を取得する
 	List<Customer> findByIdLike(int customerId);
 	
+	// 会員IDから会員情報を取得する
+	List<Customer> findById(int customerId);
+	
+	
+	
 }

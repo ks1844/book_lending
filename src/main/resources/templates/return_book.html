@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/style.css}">
+<title>書籍の返却</title>
+</head>
+<body>
+    <div th:replace="./header::header"></div>
+
+    <div class="container">
+        <h1><a href="">書籍の返却</a></h1>
+        <div class="sub-container">
+            <table>
+                <tr>
+                    <th>履歴ID</th>
+                    <th>借りている会員</th>
+                    <th>書籍名</th>
+                    <th>著者</th>
+                    <th>カテゴリ</th>
+                    <th>状態</th>
+                    <th>貸出日付</th>
+                    <th>所蔵図書館</th>
+                    <th>返却</th>
+                </tr>
+                <tr th:each="history:${histories}">
+                    <td th:text="${history.id}"></td>
+                    <td th:text="${history.customerName}"></td>
+                    <td th:text="${history.bookName}"></td>
+                    <td th:text="${history.bookAuthor}"></td>
+                    <td th:text="${history.categoryName}"></td>
+                    <td th:text="${history.statusName}"></td>
+                    <td th:text="${history.historyDate}"></td>
+                    <td th:text="${history.libraryName}"></td>
+                    <td>
+                        <form action="/lending/return" method="get">
+                            <input type="hidden" name="history_id" th:value="${history.id}">
+                            <input type="submit" value="返却" class="btn-delete">
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

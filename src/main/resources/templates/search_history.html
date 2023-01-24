@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/style.css}">
+<title>貸し出し履歴</title>
+</head>
+<body>
+    <div th:replace="./header::header"></div>
+
+    <div class="container">
+        <h1>貸し出し</h1>
+        <div class="sub-container">
+            <h2>書籍の貸出登録・返却</h2>
+            <form action="/lending/showLend" method="get" style="display: inline;">
+                <input type="submit" value="貸出" class="btn-add">
+            </form>
+            <form action="/lending/showReturn" method="get" style="display: inline;">
+                <input type="submit" value="返却" class="btn-delete">
+            </form>
+        </div>
+
+        <div class="sub-container">
+            <table>
+                <tr>
+                    <th>履歴ID</th>
+                    <th>借りている会員</th>
+                    <th>書籍名</th>
+                    <th>著者</th>
+                    <th>カテゴリ</th>
+                    <th>状態</th>
+                    <th>貸出日付</th>
+                    <th>所蔵図書館</th>
+                </tr>
+                <tr th:each="history:${histories}">
+                    <td th:text="${history.id}"></td>
+                    <td th:text="${history.customerName}"></td>
+                    <td th:text="${history.bookName}"></td>
+                    <td th:text="${history.bookAuthor}"></td>
+                    <td th:text="${history.categoryName}"></td>
+                    <td th:text="${history.statusName}"></td>
+                    <td th:text="${history.historyDate}"></td>
+                    <td th:text="${history.libraryName}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
