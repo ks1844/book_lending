@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" th:href="@{/style.css}">
-<title>Insert title here</title>
+<title>延滞履歴一覧</title>
 </head>
 <body>
     <div th:replace="./header::header"></div>
@@ -12,8 +12,10 @@
     <div class="container">
         <h1>延滞履歴一覧</h1>
         <div class="sub-container">
-        <h2>延滞している貸出履歴</h2>
-            <table>
+            <h2>メッセージ送信予定の貸出履歴</h2>
+            <p th:if="${unsent_histories.size()==0}" style="color: blue;" 
+            th:text="送信予定の返却催促メッセージはありません。"></p>
+            <table th:if="${unsent_histories.size()>0}">
                 <tr>
                     <th>履歴ID</th>
                     <th>借りている会員</th>
@@ -25,24 +27,51 @@
                     <th>所蔵図書館</th>
                     <th>延滞履歴対応</th>
                 </tr>
-                <tr th:each="history:${histories}">
-                    <td th:text="${history.id}"></td>
-                    <td th:text="${history.customerName}"></td>
-                    <td th:text="${history.bookName}"></td>
-                    <td th:text="${history.bookAuthor}"></td>
-                    <td th:text="${history.categoryName}"></td>
-                    <td th:text="${history.statusName}"></td>
-                    <td th:text="${history.historyDate}"></td>
-                    <td th:text="${history.libraryName}"></td>
+                <tr th:each="unsent_history:${unsent_histories}">
+                    <td th:text="${unsent_history.id}"></td>
+                    <td th:text="${unsent_history.customerName}"></td>
+                    <td th:text="${unsent_history.bookName}"></td>
+                    <td th:text="${unsent_history.bookAuthor}"></td>
+                    <td th:text="${unsent_history.categoryName}"></td>
+                    <td th:text="${unsent_history.statusName}"></td>
+                    <td th:text="${unsent_history.historyDate}"></td>
+                    <td th:text="${unsent_history.libraryName}"></td>
                     <td>
                         <form action="/delay/showMessage" method="get">
-                            <input type="hidden" name="history_id" th:value="${history.id}">
+                            <input type="hidden" name="history_id" th:value="${unsent_history.id}">
                             <input type="submit" value="メッセージを送る" class="btn-submit">
                         </form>
                     </td>
                 </tr>
             </table>
         </div>
+        <div class="sub-container">
+            <h2>メッセージ送信済みの貸出履歴</h2>
+            <p th:if="${sent_histories.size()==0}" style="color: blue;" 
+            th:text="送信予定の返却催促メッセージはありません。"></p>
+                <table th:if="${sent_histories.size()>0}">
+                    <tr>
+                        <th>履歴ID</th>
+                        <th>借りている会員</th>
+                        <th>書籍名</th>
+                        <th>著者</th>
+                        <th>カテゴリ</th>
+                        <th>状態</th>
+                        <th>貸出日付</th>
+                        <th>所蔵図書館</th>
+                    </tr>
+                    <tr th:each="sent_history:${sent_histories}">
+                        <td th:text="${sent_history.id}"></td>
+                        <td th:text="${sent_history.customerName}"></td>
+                        <td th:text="${sent_history.bookName}"></td>
+                        <td th:text="${sent_history.bookAuthor}"></td>
+                        <td th:text="${sent_history.categoryName}"></td>
+                        <td th:text="${sent_history.statusName}"></td>
+                        <td th:text="${sent_history.historyDate}"></td>
+                        <td th:text="${sent_history.libraryName}"></td>
+                    </tr>
+                </table>
+            </div>
     </div>
 
 </body>

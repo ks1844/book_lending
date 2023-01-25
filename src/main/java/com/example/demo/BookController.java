@@ -204,7 +204,7 @@ public class BookController {
 			ModelAndView mv) {
 
 		System.out.println(bookInfoId);
-		
+
 		// 書籍IDから書籍情報を取得
 		BookInfoDisplay bookInfo = bookInfoDisplayRepository.findById(bookInfoId).get(0);
 
@@ -250,5 +250,60 @@ public class BookController {
 
 	}
 
+	// 新しい種類の書籍の追加画面に遷移
+	@RequestMapping(value = "/bookinfo/showAdd")
+	public ModelAndView showAdd(
+			ModelAndView mv) {
+
+		// カテゴリを全件取得
+		List<Category> categories = categoryRepository.findAll();
+
+		// 図書館情報を全件取得
+		List<Library> libraries = libraryRepository.findAll();
+
+		// 新しい書籍の登録画面へ遷移
+		mv.addObject("categories", categories);
+		mv.addObject("libraries", libraries);
+		mv.setViewName("add_bookinfo");
+		return mv;
+	}
+
+	// 新しい種類の書籍を追加
+	@RequestMapping(value = "/bookinfo/add")
+	public ModelAndView add(
+			@RequestParam("book_name") String bookName,
+			@RequestParam("book_author") String bookAuthor,
+			@RequestParam("category_id") int categoryId,
+			@RequestParam("library_id") int libraryId,
+			ModelAndView mv) {
+
+		// 新しい種類の書籍のオブジェクトを作成
+		BookInfo bookInfo = new BookInfo(bookName, bookAuthor, categoryId);
+
+		// 新しい種類の書籍を作成
+		bookInfoRepository.save(bookInfo);
+		
+		// 状態を返却済み(status_id=1)にする
+		int statusId = 1;
+
+		// 書籍固有のオブジェクトを作成
+		Book book = new Book(bookInfo.getId(),libraryId,statusId);
+
+		// 書籍を追加
+		bookRepository.save(book);
+		
+		// 書籍を全件取得
+		List<BookInfoDisplay> books = bookInfoDisplayRepository.findAll();
+
+		// カテゴリを全件取得
+		List<Category> categories = categoryRepository.findAll();
+
+		// 書籍検索画面へ遷移
+		mv.addObject("books", books);
+		mv.addObject("categories", categories);
+		mv.setViewName("search_book");
+
+		return mv;
+	}
 
 }

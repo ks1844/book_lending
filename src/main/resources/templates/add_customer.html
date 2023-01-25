@@ -12,6 +12,7 @@
     <div class="container">
         <h1><a href="">新規会員登録</a></h1>
         <div class="sub-container">
+            <p th:text="${message}" style="color: red;"></p>
             <form action="/customer/add" method="post">
                 <table border="1">
                     <tr>

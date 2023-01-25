@@ -2,6 +2,7 @@ package com.example.demo;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ public class DelayCotroller {
 
 	@Autowired
 	HistoryDisplayRepository historyDisplayRepository;
-	
+
 	@Autowired
 	MessageRepository messageRepository;
 
@@ -27,14 +28,36 @@ public class DelayCotroller {
 		// 今日の日付を取得
 		LocalDate today = LocalDate.now();
 
-		// 貸出期限の2週間前の日付を取得
+		// 貸出期限の2週間前の日付を取得 
 		LocalDate checkoutDate = today.plusDays(14);
 		String checkoutDateString = checkoutDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
+		// 貸出中かつ貸出期限が過ぎている貸出履歴を取得する。
 		List<HistoryDisplay> histories = historyDisplayRepository
-				.findByStatusNameAndHistoryDate(checkoutDateString, "貸出中");
+				.findByStatusNameAndHistoryDate("貸出中", checkoutDateString);
 
-		mv.addObject("histories", histories);
+		// 削除されていない延滞者メッセージを取得
+		List<Message> messages = messageRepository.findByIsDeleted(false);
+		List<HistoryDisplay> sentHistories = new ArrayList<>();
+		List<HistoryDisplay> unsentHistories = new ArrayList<>();
+		List<Integer> sentHistoryIds = new ArrayList<>();
+
+		for (Message message : messages) {
+			if (!message.isDeleted()) {
+				sentHistoryIds.add(message.getHistoryId());
+			}
+		}
+
+		for (HistoryDisplay history : histories) {
+			if(sentHistoryIds.contains(history.getId())){
+				sentHistories.add(history);
+			}else {
+				unsentHistories.add(history);
+			}
+		}
+
+		mv.addObject("unsent_histories", unsentHistories);
+		mv.addObject("sent_histories", sentHistories);
 		mv.setViewName("search_delay");
 		return mv;
 	}
@@ -93,7 +116,7 @@ public class DelayCotroller {
 		// メッセージを保存
 		Message message = new Message(messageText, historyId, false);
 		messageRepository.save(message);
-		
+
 		// 今日の日付を取得
 		LocalDate today = LocalDate.now();
 
@@ -101,12 +124,34 @@ public class DelayCotroller {
 		LocalDate checkoutDate = today.plusDays(14);
 		String checkoutDateString = checkoutDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
+		// 貸出中かつ貸出期限が過ぎている貸出履歴を取得する。
 		List<HistoryDisplay> histories = historyDisplayRepository
-				.findByStatusNameAndHistoryDate(checkoutDateString, "貸出中");
+				.findByStatusNameAndHistoryDate("貸出中", checkoutDateString);
 
-		mv.addObject("histories", histories);
+		// 削除されていない延滞者メッセージを取得
+		List<Message> messages = messageRepository.findByIsDeleted(false);
+		List<HistoryDisplay> sentHistories = new ArrayList<>();
+		List<HistoryDisplay> unsentHistories = new ArrayList<>();
+		List<Integer> sentHistoryIds = new ArrayList<>();
+
+		for (Message msg : messages) {
+			if (!msg.isDeleted()) {
+				sentHistoryIds.add(msg.getHistoryId());
+			}
+		}
+
+		for (HistoryDisplay history : histories) {
+			if(sentHistoryIds.contains(history.getId())){
+				sentHistories.add(history);
+			}else {
+				unsentHistories.add(history);
+			}
+		}
+
+		mv.addObject("unsent_histories", unsentHistories);
+		mv.addObject("sent_histories", sentHistories);
 		mv.setViewName("search_delay");
-		
+
 		return mv;
 	}
 

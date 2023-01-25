@@ -52,23 +52,39 @@
                     <th>退会</th>
                 </tr>
                 <tr th:each="customer:${customers}">
-                    <td th:text="${customer.id}"></td>
-                    <td><a th:text="${customer.name}" th:href="'/customer/show/'+${customer.id}"></a></td>
-                    <td th:text="${customer.tel}"></td>
-                    <td th:text="${customer.mail}"></td>
-                    <td th:text="${customer.password}"></td>
-                    <td>
-                        <form action="/customer/showUpdate" method="get">
-                            <input type="hidden" name="customer_id" th:value="${customer.id}">
-                            <input type="submit" value="変更" class="btn-update">
-                        </form>
-                    </td>
-                    <td>
-                        <form action="/customer/showDelete" method="get">
-                            <input type="hidden" name="customer_id" th:value="${customer.id}">
-                            <input type="submit" value="退会手続き" class="btn-delete">
-                        </form>
-                    </td>
+                    <span th:if="${!customer.isDeleted}">
+                        <td th:text="${customer.id}"></td>
+                        <td><a th:text="${customer.name}" th:href="'/customer/show/'+${customer.id}"></a></td>
+                        <td th:text="${customer.tel}"></td>
+                        <td th:text="${customer.mail}"></td>
+                        <td th:text="${customer.password}"></td>
+                        <td>
+                            <form action="/customer/showUpdate" method="get">
+                                <input type="hidden" name="customer_id" th:value="${customer.id}">
+                                <input type="submit" value="変更" class="btn-update">
+                            </form>
+                        </td>
+                        <td>
+                            <form action="/customer/showDelete" method="get">
+                                <input type="hidden" name="customer_id" th:value="${customer.id}">
+                                <input type="submit" value="退会手続き" class="btn-delete">
+                            </form>
+                        </td>
+                    </span>
+                    <span th:if="${customer.isDeleted}">
+                        <td class="withdrawn" th:text="${customer.id}"></td>
+                        <td class="withdrawn"><a th:text="${customer.name}" th:href="'/customer/show/'+${customer.id}"></a></td>
+                        <td class="withdrawn" th:text="${customer.tel}"></td>
+                        <td class="withdrawn" th:text="${customer.mail}"></td>
+                        <td class="withdrawn" th:text="${customer.password}"></td>
+                        <td>
+                            <form action="/customer/showUpdate" method="get">
+                                <input type="hidden" name="customer_id" th:value="${customer.id}">
+                                <input type="submit" value="変更" class="btn-update">
+                            </form>
+                        </td>
+                        <td class="withdrawn">退会済み</td>
+                    </span>
                 </tr>
             </table>
             <button class="btn-add">

@@ -31,6 +31,9 @@ public class LendingController {
 
 	@Autowired
 	HistoryRepository historyRepository;
+	
+	@Autowired
+	MessageRepository messageRepository;
 
 
 	// 貸出履歴画面へ遷移
@@ -239,6 +242,16 @@ public class LendingController {
 		// 書籍を返却で保存する
 		book.setStatusId(1);
 		bookRepository.save(book);
+		
+
+		// 延滞者メッセージが出ていれば、メッセージを削除する
+		List<Message> messages=messageRepository.findByHistoryId(historyId);
+		Message message;
+		if(messages.size()>0) {
+			message=messages.get(0);
+			message.setDeleted(true);
+			messageRepository.save(message);
+		}
 
 		// 貸出履歴一覧を全件取得
 		List<HistoryDisplay> histories = historyDisplayRepository.findAllByOrderByHistoryIdDesc();

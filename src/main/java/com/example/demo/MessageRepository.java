@@ -7,9 +7,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Integer> {
-	
+
 	List<Message> findById(int messageId);
-	
+
 	List<Message> findByHistoryId(int historyId);
+
+	List<Message> findByIsDeleted(boolean isDeleted);
 
 }

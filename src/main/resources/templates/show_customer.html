@@ -31,6 +31,14 @@
                     <td th:text="${customer.password}"></td>
                 </tr>
             </table>
+            <form action="/customer/showUpdate" method="get" style="display: inline;">
+                <input type="hidden" name="customer_id" th:value="${customer.id}">
+                <input type="submit" value="変更" class="btn-update">
+            </form>
+            <form action="/customer/showDelete" method="get" style="display: inline;">
+                <input type="hidden" name="customer_id" th:value="${customer.id}">
+                <input type="submit" value="退会手続き" class="btn-delete">
+            </form>
         </div>
         <div class="sub-container" th:if="${message}" th:each="message:${messages}">
             <p th:utext="${message}" style="color: red;"></p>

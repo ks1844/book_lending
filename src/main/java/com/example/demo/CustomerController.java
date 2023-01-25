@@ -1,6 +1,5 @@
 package com.example.demo;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,13 +50,6 @@ public class CustomerController {
 			@PathVariable("customer_id") int customerId,
 			ModelAndView mv) {
 
-		// 今日の日付を取得
-		LocalDate today = LocalDate.now();
-
-		// 貸出期限の2週間前の日付を取得
-		LocalDate checkoutDate = today.plusDays(14);
-		//		String checkoutDateString = checkoutDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
 		// 会員IDから会員情報を取得
 		Customer customer = customerRepository.findById(customerId).get(0);
 
@@ -71,20 +63,10 @@ public class CustomerController {
 		for (HistoryDisplay history : histories) {
 			historyId = history.getId();
 			messageList = messageRepository.findByHistoryId(historyId);
-			if (messageList.size() > 0) {
+			if (messageList.size() > 0 && !messageList.get(0).isDeleted()) {
 				messages.add(messageList.get(0).getMessageText());
 			}
 		}
-
-		//		// 貸出日が2週間以上前の貸出履歴をカウントする
-		//		List<HistoryDisplay> delayedHistories = historyDisplayRepository
-		//				.findByCustomerIdAndStatusNameAndHistoryDate(customerId, checkoutDateString, "貸出中");
-		//		int delayedHistoryCount = delayedHistories.size();
-
-		//		// 貸出期限が過ぎているものがあれば、メッセージを渡す
-		//		if (delayedHistoryCount > 0) {
-		//			mv.addObject("message", String.format("延滞している書籍が%d冊あります。<br>なるべく早く返却してください。", delayedHistoryCount));
-		//		}
 
 		// 会員情報と貸出履歴を渡す
 		mv.addObject("customer", customer);
@@ -105,11 +87,23 @@ public class CustomerController {
 			@RequestParam("password") String password,
 			ModelAndView mv) {
 
+		//会員登録前の会員情報を全件取得
+		List<Customer> customersBeforeAdd = customerRepository.findAll();
+
+		// 入力で得たメールアドレスで既に会員登録済みのとき、警告を表示
+		for (Customer customer : customersBeforeAdd) {
+			if (mail.equals(customer.getMail())) {
+				mv.addObject("message", customer.getMail() + "はすでに登録済みです。");
+				mv.setViewName("add_customer");
+				return mv;
+			}
+		}
+
 		// DBに会員を登録
 		Customer customer = new Customer(name, tel, mail, password);
 		customerRepository.save(customer);
 
-		// 全件取得
+		// 会員情報を全件取得
 		List<Customer> customers = customerRepository.findAll();
 
 		// 会員検索画面へ遷移
@@ -171,19 +165,39 @@ public class CustomerController {
 	// 会員情報の変更
 	@RequestMapping(value = "/customer/update", method = RequestMethod.POST)
 	public ModelAndView updateCustomer(
-			@RequestParam("customer_id") int customerId,
-			@RequestParam("customer_name") String customerName,
-			@RequestParam("customer_tel") String customerTel,
-			@RequestParam("customer_mail") String customerMail,
+			@RequestParam("customer_id") int id,
+			@RequestParam("customer_name") String name,
+			@RequestParam("customer_tel") String tel,
+			@RequestParam("customer_mail") String mail,
 			@RequestParam("customer_password") String customerPassword,
 			@RequestParam(name = "is_deleted", defaultValue = "false") boolean isDeleted,
 			ModelAndView mv) {
 
+		// 会員IDから会員情報を取得
+		Customer customer = customerRepository.findByIdLike(id).get(0);
+
+		//会員登録前の会員情報を全件取得
+		List<Customer> customersBeforeAdd = customerRepository.findAll();
+
+		// 入力で得たメールアドレスで既に会員登録済みのとき、警告を表示
+		for (Customer customerBeforAdd : customersBeforeAdd) {
+			if (mail.equals(customerBeforAdd.getMail())) {
+				if(customerBeforAdd.getId() == id) {
+					// 登録済みのメールでも、同じ会員なら更新手続きに戻る
+					break;
+				}else {
+					mv.addObject("message", customerBeforAdd.getMail() + "はすでに登録済みです。");
+					mv.addObject("customer", customer);
+					mv.setViewName("update_customer");
+					return mv;
+				}
+			}
+		}
+
 		// 会員情報を変更
-		Customer customer = customerRepository.findByIdLike(customerId).get(0);
-		customer.setName(customerName);
-		customer.setTel(customerTel);
-		customer.setMail(customerMail);
+		customer.setName(name);
+		customer.setTel(tel);
+		customer.setMail(mail);
 		customer.setPassword(customerPassword);
 		customer.setDeleted(isDeleted);
 

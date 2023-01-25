@@ -34,14 +34,26 @@
                     <th>所蔵図書館</th>
                 </tr>
                 <tr th:each="history:${histories}">
-                    <td th:text="${history.id}"></td>
-                    <td th:text="${history.customerName}"></td>
-                    <td th:text="${history.bookName}"></td>
-                    <td th:text="${history.bookAuthor}"></td>
-                    <td th:text="${history.categoryName}"></td>
-                    <td th:text="${history.statusName}"></td>
-                    <td th:text="${history.historyDate}"></td>
-                    <td th:text="${history.libraryName}"></td>
+                    <span th:if="${history.statusName} == '貸出中'">
+                        <td th:class="lending" th:text="${history.id}"></td>
+                        <td th:class="lending" th:text="${history.customerName}"></td>
+                        <td th:class="lending" th:text="${history.bookName}"></td>
+                        <td th:class="lending" th:text="${history.bookAuthor}"></td>
+                        <td th:class="lending" th:text="${history.categoryName}"></td>
+                        <td th:class="lending" th:text="${history.statusName}"></td>
+                        <td th:class="lending" th:text="${history.historyDate}"></td>
+                        <td th:class="lending" th:text="${history.libraryName}"></td>
+                    </span>
+                    <span th:if="${history.statusName} != '貸出中'">
+                        <td th:text="${history.id}"></td>
+                        <td th:text="${history.customerName}"></td>
+                        <td th:text="${history.bookName}"></td>
+                        <td th:text="${history.bookAuthor}"></td>
+                        <td th:text="${history.categoryName}"></td>
+                        <td th:text="${history.statusName}"></td>
+                        <td th:text="${history.historyDate}"></td>
+                        <td th:text="${history.libraryName}"></td>
+                    </span>
                 </tr>
             </table>
         </div>
