@@ -33,15 +33,16 @@
         </div>
         <div class="sub-container">
             <form action="/book/add" method="get">
+                <p th:text="${message}" style="color: red;"></p>
                 <table>
                     <tr>
                         <th>図書館</th>
                         <td>
-                            <select name="library_id">
+                            <select name="library_id" required>
                                 <option value="">---</option>
                                 <option th:each="library:${libraries}" 
                                 th:value="${library.id}" 
-                                th:selected="${library.id == id}" 
+                                th:selected="${library.id == library_id}" 
                                 th:lnline="text">[[${library.name}]]</option>
                             </select>
                         </td>

@@ -11,24 +11,25 @@
     <div class="container">
         <h1>書籍を新規登録</h1>
         <div class="sub-container">
+            <p th:text="${message}" style="color: red;"></p>
             <form action="/bookinfo/add" method="get">
                 <table border="1">
                     <tr>
                         <th>書籍名</th>
-                        <td><input type="text" name="book_name" required></td>
+                        <td><input type="text" name="book_name" th:value="${book_name}" required></td>
                     </tr>
                     <tr>
                         <th>著者</th>
-                        <td><input type="text" name="book_author" required></td>
+                        <td><input type="text" name="book_author" th:value="${book_author}" required></td>
                     </tr>
                     <tr>
                         <th>カテゴリ</th>
                         <td>
-                            <select name="category_id" required>
-                                <option>---</option>
+                            <select name="category_id">
+                                <option value="">---</option>
                                 <option th:each="category:${categories}" 
                                 th:value="${category.id}" 
-                                th:selected="${category.id == id}" 
+                                th:selected="${category.id == category_id}" 
                                 th:lnline="text">[[${category.name}]]</option>
                             </select>
                         </td>
@@ -36,11 +37,11 @@
                     <tr>
                         <th>所蔵する図書館</th>
                         <td>
-                            <select name="library_id" required>
-                                <option>---</option>
+                            <select name="library_id">
+                                <option value="">---</option>
                                 <option th:each="library:${libraries}" 
                                 th:value="${library.id}" 
-                                th:selected="${library.id == id}" 
+                                th:selected="${library.id == library_id}" 
                                 th:lnline="text">[[${library.name}]]</option>
                             </select>
                         </td>

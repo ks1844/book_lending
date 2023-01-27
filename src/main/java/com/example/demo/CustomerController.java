@@ -27,10 +27,10 @@ public class CustomerController {
 	MessageRepository messageRepository;
 	
 	// DBでの文字数の上限
-	int maxCustomerNameLength = 20;
-	int maxCustomerTelLength = 20;
-	int maxCustomerMailLength = 50;
-	int maxCustomerPasswordLength = 20;
+	private static final int MAX_CUSTOMER_NAME_LENGTH = 20;
+	private static final int MAX_CUSTOMER_TEL_LENGTH = 20;
+	private static final int MAX_CUSTOMER_MAIL_LENGTH = 50;
+	private static final int MAX_CUSTOMER_PASSWORD_LENGTH = 20;
 
 	@RequestMapping(value = "/customer")
 	public ModelAndView index(
@@ -91,32 +91,32 @@ public class CustomerController {
 			ModelAndView mv) {
 		
 		// 文字数がDBの上限を越えるとき、変更処理を行わない
-		if (customerName.length() > maxCustomerNameLength) {
-			mv.addObject("message", "会員名の文字数制限の" + maxCustomerNameLength + "文字を越えています");
+		if (customerName.length() > MAX_CUSTOMER_NAME_LENGTH) {
+			mv.addObject("message", "会員名の文字数制限の" + MAX_CUSTOMER_NAME_LENGTH + "文字を越えています");
 			mv.addObject("customer_name", customerName);
 			mv.addObject("customer_tel", customerTel);
 			mv.addObject("customer_mail", customerMail);
 			mv.addObject("customer_password", customerPassword);
 			mv.setViewName("add_customer");
 			return mv;
-		} else if (customerTel.length() > maxCustomerTelLength) {
-			mv.addObject("message", "電話番号の文字数制限の" + maxCustomerTelLength + "文字を越えています");
+		} else if (customerTel.length() > MAX_CUSTOMER_TEL_LENGTH) {
+			mv.addObject("message", "電話番号の文字数制限の" + MAX_CUSTOMER_TEL_LENGTH + "文字を越えています");
 			mv.addObject("customer_name", customerName);
 			mv.addObject("customer_tel", customerTel);
 			mv.addObject("customer_mail", customerMail);
 			mv.addObject("customer_password", customerPassword);
 			mv.setViewName("add_customer");
 			return mv;
-		} else if (customerMail.length() > maxCustomerMailLength) {
-			mv.addObject("message", "メールアドレスの文字数制限の" + maxCustomerMailLength + "文字を越えています");
+		} else if (customerMail.length() > MAX_CUSTOMER_MAIL_LENGTH) {
+			mv.addObject("message", "メールアドレスの文字数制限の" + MAX_CUSTOMER_MAIL_LENGTH + "文字を越えています");
 			mv.addObject("customer_name", customerName);
 			mv.addObject("customer_tel", customerTel);
 			mv.addObject("customer_mail", customerMail);
 			mv.addObject("customer_password", customerPassword);
 			mv.setViewName("add_customer");
 			return mv;
-		} else if (customerPassword.length() > maxCustomerPasswordLength) {
-			mv.addObject("message", "パスワードの文字数制限の" + maxCustomerPasswordLength + "文字を越えています");
+		} else if (customerPassword.length() > MAX_CUSTOMER_PASSWORD_LENGTH) {
+			mv.addObject("message", "パスワードの文字数制限の" + MAX_CUSTOMER_PASSWORD_LENGTH + "文字を越えています");
 			mv.addObject("customer_name", customerName);
 			mv.addObject("customer_tel", customerTel);
 			mv.addObject("customer_mail", customerMail);
@@ -237,23 +237,23 @@ public class CustomerController {
 		customer.setDeleted(isDeleted);
 
 		// 文字数がDBの上限を越えるとき、変更処理を行わない
-		if (customerName.length() > maxCustomerNameLength) {
-			mv.addObject("message", "会員名の文字数制限の" + maxCustomerNameLength + "文字を越えています");
+		if (customerName.length() > MAX_CUSTOMER_NAME_LENGTH) {
+			mv.addObject("message", "会員名の文字数制限の" + MAX_CUSTOMER_NAME_LENGTH + "文字を越えています");
 			mv.addObject("customer", customer);
 			mv.setViewName("update_customer");
 			return mv;
-		} else if (customerTel.length() > maxCustomerTelLength) {
-			mv.addObject("message", "電話番号の文字数制限の" + maxCustomerTelLength + "文字を越えています");
+		} else if (customerTel.length() > MAX_CUSTOMER_TEL_LENGTH) {
+			mv.addObject("message", "電話番号の文字数制限の" + MAX_CUSTOMER_TEL_LENGTH + "文字を越えています");
 			mv.addObject("customer", customer);
 			mv.setViewName("update_customer");
 			return mv;
-		} else if (customerMail.length() > maxCustomerMailLength) {
-			mv.addObject("message", "メールアドレスの文字数制限の" + maxCustomerMailLength + "文字を越えています");
+		} else if (customerMail.length() > MAX_CUSTOMER_MAIL_LENGTH) {
+			mv.addObject("message", "メールアドレスの文字数制限の" + MAX_CUSTOMER_MAIL_LENGTH + "文字を越えています");
 			mv.addObject("customer", customer);
 			mv.setViewName("update_customer");
 			return mv;
-		} else if (customerPassword.length() > maxCustomerPasswordLength) {
-			mv.addObject("message", "パスワードの文字数制限の" + maxCustomerPasswordLength + "文字を越えています");
+		} else if (customerPassword.length() > MAX_CUSTOMER_PASSWORD_LENGTH) {
+			mv.addObject("message", "パスワードの文字数制限の" + MAX_CUSTOMER_PASSWORD_LENGTH + "文字を越えています");
 			mv.addObject("customer", customer);
 			mv.setViewName("update_customer");
 			return mv;

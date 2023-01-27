@@ -20,6 +20,9 @@ public class DelayCotroller {
 	@Autowired
 	MessageRepository messageRepository;
 
+	// DBでの文字数の上限
+	private static final int MAX_MESSAGE_LENGTH = 200;
+
 	// 延滞者管理ホームに遷移
 	@RequestMapping(value = "/delay")
 	public ModelAndView index(
@@ -49,9 +52,9 @@ public class DelayCotroller {
 		}
 
 		for (HistoryDisplay history : histories) {
-			if(sentHistoryIds.contains(history.getId())){
+			if (sentHistoryIds.contains(history.getId())) {
 				sentHistories.add(history);
-			}else {
+			} else {
 				unsentHistories.add(history);
 			}
 		}
@@ -92,7 +95,7 @@ public class DelayCotroller {
 
 		String messageText = String.format(messageTextFormat, customerName, libraryName, bookName, bookAuthor, date);
 
-		// 貸出履歴IDを渡す
+		// 貸出履歴を渡す
 		mv.addObject("history", history);
 
 		// メッセージ内容を渡す
@@ -112,6 +115,20 @@ public class DelayCotroller {
 			@RequestParam("history_id") int historyId,
 			@RequestParam("message") String messageText,
 			ModelAndView mv) {
+
+		HistoryDisplay history = historyDisplayRepository.findById(historyId).get(0);
+		String date = LocalDate.parse(history.getHistoryDate()).plusDays(14)
+				.format(DateTimeFormatter.ofPattern("yyyy年MM月dd日"));
+
+		// メッセージの文字数が上限をこえたとき、警告を渡す
+		if (messageText.length() > MAX_MESSAGE_LENGTH) {
+			mv.addObject("error_message", "延滞者メッセージは"+MAX_MESSAGE_LENGTH+"文字が上限です");
+			mv.addObject("history", history);
+			mv.addObject("message", messageText);
+			mv.addObject("date", date);
+			mv.setViewName("confirm_delay_message");
+			return mv;
+		}
 
 		// メッセージを保存
 		Message message = new Message(messageText, historyId, false);
@@ -140,11 +157,11 @@ public class DelayCotroller {
 			}
 		}
 
-		for (HistoryDisplay history : histories) {
-			if(sentHistoryIds.contains(history.getId())){
-				sentHistories.add(history);
-			}else {
-				unsentHistories.add(history);
+		for (HistoryDisplay h : histories) {
+			if (sentHistoryIds.contains(h.getId())) {
+				sentHistories.add(h);
+			} else {
+				unsentHistories.add(h);
 			}
 		}
 

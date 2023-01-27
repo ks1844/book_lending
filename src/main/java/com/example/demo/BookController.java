@@ -42,8 +42,8 @@ public class BookController {
 	LibraryRepository libraryRepository;
 
 	// DBでの文字数の上限
-	int maxBookNameLength = 50;
-	int maxBookAuthorLength = 20;
+	private static final int MAX_BOOK_NAME_LENGTH = 50;
+	private static final int MAX_BOOK_AUTHOR_LENGTH = 20;
 
 	// 書籍情報一覧画面を表示
 	@RequestMapping(value = "/bookinfo")
@@ -137,20 +137,32 @@ public class BookController {
 			@RequestParam("bookinfo_id") int bookInfoId,
 			@RequestParam("book_name") String bookName,
 			@RequestParam("book_author") String bookAuthor,
-			@RequestParam("category_id") int categoryId,
+			@RequestParam(name = "category_id", defaultValue = "-1") int categoryId,
 			ModelAndView mv) {
 
 		// カテゴリを全件取得
 		List<Category> categories = categoryRepository.findAll();
-		
-		// カテゴリ名を取得
-		String categoryName = categoryRepository.findById(categoryId).get(0).getName();
-		
+
 		BookInfoDisplay bookinfoDisplay;
 
+		// カテゴリが未選択のとき、入力を促す
+		if (categoryId <= 0) {
+			mv.addObject("message", "カテゴリを選択してください");
+			bookinfoDisplay = bookInfoDisplayRepository.findById(bookInfoId).get(0);
+			bookinfoDisplay.setName(bookName);
+			bookinfoDisplay.setAuthor(bookAuthor);
+			mv.addObject("bookinfo", bookinfoDisplay);
+			mv.addObject("categories", categories);
+			mv.setViewName("update_bookinfo");
+			return mv;
+		}
+
+		// カテゴリ名を取得
+		String categoryName = categoryRepository.findById(categoryId).get(0).getName();
+
 		// 文字数がDBの上限を越えるとき、変更処理を行わない
-		if (bookName.length() > maxBookNameLength) {
-			mv.addObject("message", "書籍名の文字数制限の" + maxBookNameLength + "文字を越えています");
+		if (bookName.length() > MAX_BOOK_NAME_LENGTH) {
+			mv.addObject("message", "書籍名の文字数制限の" + MAX_BOOK_NAME_LENGTH + "文字を越えています");
 			bookinfoDisplay = bookInfoDisplayRepository.findById(bookInfoId).get(0);
 			bookinfoDisplay.setName(bookName);
 			bookinfoDisplay.setAuthor(bookAuthor);
@@ -159,8 +171,8 @@ public class BookController {
 			mv.addObject("categories", categories);
 			mv.setViewName("update_bookinfo");
 			return mv;
-		} else if (bookAuthor.length() > maxBookAuthorLength) {
-			mv.addObject("message", "著者名の文字数制限の" + maxBookAuthorLength + "文字を越えています");
+		} else if (bookAuthor.length() > MAX_BOOK_AUTHOR_LENGTH) {
+			mv.addObject("message", "著者名の文字数制限の" + MAX_BOOK_AUTHOR_LENGTH + "文字を越えています");
 			bookinfoDisplay = bookInfoDisplayRepository.findById(bookInfoId).get(0);
 			bookinfoDisplay.setName(bookName);
 			bookinfoDisplay.setAuthor(bookAuthor);
@@ -173,7 +185,7 @@ public class BookController {
 
 		// 書籍情報IDから書籍情報を取得
 		BookInfo bookinfo = bookInfoRepository.findById(bookInfoId).get(0);
-		
+
 		// 書籍情報を変更
 		bookinfo.setName(bookName);
 		bookinfo.setAuthor(bookAuthor);
@@ -248,13 +260,9 @@ public class BookController {
 		// 図書館を全件取得
 		List<Library> libraries = libraryRepository.findAll();
 
-		// 書籍ステータスを全件取得
-		List<Status> statuses = statusRepository.findAll();
-
 		// 書籍検索画面へ遷移
 		mv.addObject("bookinfo", bookInfo);
 		mv.addObject("libraries", libraries);
-		mv.addObject("statuses", statuses);
 		mv.setViewName("add_book");
 		return mv;
 	}
@@ -263,8 +271,23 @@ public class BookController {
 	@RequestMapping(value = "/book/add")
 	public ModelAndView add(
 			@RequestParam("bookinfo_id") int bookInfoId,
-			@RequestParam("library_id") int libraryId,
+			@RequestParam(name = "library_id", defaultValue = "-1") int libraryId,
 			ModelAndView mv) {
+
+		// 書籍情報IDから書籍情報を取得
+		BookInfoDisplay bookinfo = bookInfoDisplayRepository.findById(bookInfoId).get(0);
+		// 図書館を全件取得
+		List<Library> libraries = libraryRepository.findAll();
+
+		// 図書館が選択されなかったとき、選択を促す
+		if (libraryId <= 0) {
+			mv.addObject("message", "図書館を選択してください");
+			mv.addObject("library_id", libraryId);
+			mv.addObject("bookinfo", bookinfo);
+			mv.addObject("libraries", libraries);
+			mv.setViewName("add_book");
+			return mv;
+		}
 
 		// 書籍ステータスを返却済み(status_id=1)にする
 		int statusId = 1;
@@ -310,9 +333,60 @@ public class BookController {
 	public ModelAndView add(
 			@RequestParam("book_name") String bookName,
 			@RequestParam("book_author") String bookAuthor,
-			@RequestParam("category_id") int categoryId,
-			@RequestParam("library_id") int libraryId,
+			@RequestParam(name = "category_id", defaultValue = "-1") int categoryId,
+			@RequestParam(name = "library_id", defaultValue = "-1") int libraryId,
 			ModelAndView mv) {
+
+		// カテゴリを全件取得
+		List<Category> categories = categoryRepository.findAll();
+
+		// 図書館を全件取得
+		List<Library> libraries = libraryRepository.findAll();
+
+		// カテゴリが未選択のとき、選択を促す
+		if (categoryId <= 0) {
+			mv.addObject("message", "カテゴリを選択してください");
+			mv.addObject("book_name", bookName);
+			mv.addObject("book_author", bookAuthor);
+			mv.addObject("category_id", categoryId);
+			mv.addObject("library_id", libraryId);
+			mv.addObject("categories", categories);
+			mv.addObject("libraries", libraries);
+			mv.setViewName("add_bookinfo");
+			return mv;
+		}
+
+		// 図書館が未選択のとき、選択を促す
+		if (libraryId <= 0) {
+			mv.addObject("message", "図書館を選択してください");
+			mv.addObject("book_name", bookName);
+			mv.addObject("book_author", bookAuthor);
+			mv.addObject("category_id", categoryId);
+			mv.addObject("library_id", libraryId);
+			mv.addObject("categories", categories);
+			mv.addObject("libraries", libraries);
+			mv.setViewName("add_bookinfo");
+			return mv;
+		}
+
+		// 文字数がDBの上限を越えるとき、変更処理を行わない
+		if (bookName.length() > MAX_BOOK_NAME_LENGTH) {
+			mv.addObject("message", "書籍名の文字数制限の" + MAX_BOOK_NAME_LENGTH + "文字を越えています");
+			mv.addObject("book_name", bookName);
+			mv.addObject("book_author", bookAuthor);
+			mv.addObject("categories", categories);
+			mv.addObject("libraries", libraries);
+			mv.setViewName("add_bookinfo");
+			return mv;
+		} else if (bookAuthor.length() > MAX_BOOK_AUTHOR_LENGTH) {
+			mv.addObject("message", "著者名の文字数制限の" + MAX_BOOK_AUTHOR_LENGTH + "文字を越えています");
+			mv.addObject("book_name", bookName);
+			mv.addObject("book_author", bookAuthor);
+			mv.addObject("categories", categories);
+			mv.addObject("libraries", libraries);
+			mv.setViewName("add_bookinfo");
+			return mv;
+		}
 
 		// 書籍情報を追加
 		BookInfo bookInfo = new BookInfo(bookName, bookAuthor, categoryId);
@@ -325,9 +399,6 @@ public class BookController {
 
 		// 書籍情報を全件取得
 		List<BookInfoDisplay> books = bookInfoDisplayRepository.findAll();
-
-		// カテゴリを全件取得
-		List<Category> categories = categoryRepository.findAll();
 
 		// 書籍情報の検索画面へ遷移
 		mv.addObject("books", books);

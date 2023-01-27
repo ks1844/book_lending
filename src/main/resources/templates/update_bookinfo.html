@@ -35,13 +35,12 @@
                     <tr>
                         <th>カテゴリ</th>
                         <td>
-                            <select name="category_id">
+                            <select name="category_id" required>
                                 <option value="">---</option>
-                                <option th:each="category:${categories}" 
+                                <option th:each="category:${categories}"  
                                     th:value="${category.id}" 
                                     th:selected="${bookinfo.category == category.name}"
-                                    th:lnline="text">[[${category.name}]]   
-                                <!-- <input type="hidden" name="category_name" th:value="${category.name}"> -->
+                                    th:lnline="text">[[${category.name}]]
                                 </option>  
                             </select>   
                         </td>
