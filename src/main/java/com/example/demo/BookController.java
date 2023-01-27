@@ -143,28 +143,28 @@ public class BookController {
 		// カテゴリを全件取得
 		List<Category> categories = categoryRepository.findAll();
 		
-		// カテゴリIDからカテゴリ名を取得
+		// カテゴリ名を取得
 		String categoryName = categoryRepository.findById(categoryId).get(0).getName();
 		
-		System.err.println(categoryName);
-
-		// 書籍情報IDから表示用の書籍情報を取得
-		BookInfoDisplay bookinfoDisplay = bookInfoDisplayRepository.findById(bookInfoId).get(0);
-
-		// 入力画面の入力内容を消さないように、書籍情報を変更(保存はまだ行わない)
-		bookinfoDisplay.setName(bookName);
-		bookinfoDisplay.setAuthor(bookAuthor);
-		bookinfoDisplay.setCategory(categoryName);
+		BookInfoDisplay bookinfoDisplay;
 
 		// 文字数がDBの上限を越えるとき、変更処理を行わない
 		if (bookName.length() > maxBookNameLength) {
 			mv.addObject("message", "書籍名の文字数制限の" + maxBookNameLength + "文字を越えています");
+			bookinfoDisplay = bookInfoDisplayRepository.findById(bookInfoId).get(0);
+			bookinfoDisplay.setName(bookName);
+			bookinfoDisplay.setAuthor(bookAuthor);
+			bookinfoDisplay.setCategory(categoryName);
 			mv.addObject("bookinfo", bookinfoDisplay);
 			mv.addObject("categories", categories);
 			mv.setViewName("update_bookinfo");
 			return mv;
 		} else if (bookAuthor.length() > maxBookAuthorLength) {
 			mv.addObject("message", "著者名の文字数制限の" + maxBookAuthorLength + "文字を越えています");
+			bookinfoDisplay = bookInfoDisplayRepository.findById(bookInfoId).get(0);
+			bookinfoDisplay.setName(bookName);
+			bookinfoDisplay.setAuthor(bookAuthor);
+			bookinfoDisplay.setCategory(categoryName);
 			mv.addObject("bookinfo", bookinfoDisplay);
 			mv.addObject("categories", categories);
 			mv.setViewName("update_bookinfo");
