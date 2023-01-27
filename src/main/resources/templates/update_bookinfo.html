@@ -11,24 +11,25 @@
     <div class="container">
         <h1><a href="">書籍情報を更新</a></h1>
         <div class="sub-container">
+            <p th:text="${message}" style="color: red;"></p>
             <form action="/bookinfo/update" method="get">
                 <table>
                     <tr>
                         <th>書籍ID</th>
                         <td>
-                            <input type="hidden" name="bookinfo_id" th:value="${books.id}">
+                            <input type="text" name="bookinfo_id" th:value="${bookinfo.id}" readonly>
                         </td>
                     </tr>
                     <tr>
                         <th>書籍名</th>
                         <td>
-                            <input type="text" name="book_name" th:value="${books.name}">
+                            <input type="text" name="book_name" th:value="${bookinfo.name}">
                         </td>
                     </tr>
                     <tr>
                         <th>著者</th>
                         <td>
-                            <input type="text" name="book_author" th:value="${books.author}">
+                            <input type="text" name="book_author" th:value="${bookinfo.author}">
                         </td>
                     </tr>
                     <tr>
@@ -37,9 +38,11 @@
                             <select name="category_id">
                                 <option value="">---</option>
                                 <option th:each="category:${categories}" 
-                                th:value="${category.id}" 
-                                th:selected="${category.name == books.category}" 
-                                th:lnline="text">[[${category.name}]]</option>
+                                    th:value="${category.id}" 
+                                    th:selected="${bookinfo.category == category.name}"
+                                    th:lnline="text">[[${category.name}]]   
+                                <!-- <input type="hidden" name="category_name" th:value="${category.name}"> -->
+                                </option>  
                             </select>   
                         </td>
                     </tr>

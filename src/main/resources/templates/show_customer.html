@@ -41,7 +41,7 @@
             </form>
         </div>
         <div class="sub-container" th:if="${message}" th:each="message:${messages}">
-            <p th:utext="${message}" style="color: red;"></p>
+            <p th:utext="${message.messageText}" style="color: red;"></p>
         </div>
         <div class="sub-container">
             <h2>この会員の貸出履歴</h2>

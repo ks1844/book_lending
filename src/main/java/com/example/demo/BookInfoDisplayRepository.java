@@ -10,7 +10,7 @@ public interface BookInfoDisplayRepository extends JpaRepository<BookInfoDisplay
 	// カテゴリテーブルからカテゴリ名を取得
 
 	// 全件取得
-	@Query(value = "select *from bookinfo as bi "
+	@Query(value = "select * from bookinfo as bi "
 			+ "inner join categories as c on bi.category_id = c.category_id", nativeQuery = true)
 	List<BookInfoDisplay> findAll();
 
@@ -24,7 +24,7 @@ public interface BookInfoDisplayRepository extends JpaRepository<BookInfoDisplay
 	@Query(value = "select * from bookinfo as bi "
 			+ "inner join categories as c on bi.category_id = c.category_id "
 			+ "where bi.book_name like %:name% and bi.book_author like %:author% and c.category_name = :category", nativeQuery = true)
-	List<BookInfoDisplay> findByNameLikeAndByAuthorLikeAndByCategoryLike(
+	List<BookInfoDisplay> findByNameLikeAndByAuthorLikeAndByCategory(
 			@Param("name") String name, 
 			@Param("author") String author,
 			@Param("category") String category

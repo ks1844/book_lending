@@ -25,10 +25,19 @@
                 <p th:text="${customer.name}+'さんを退会させてもよろしいですか?'"></p>
                 <br>
                 <form action="/customer/delete" method="get" style="display: inline">
+                    <table>
+                        <tr>
+                            <th>パスワード</th>
+                            <td>
+                                <input type="password" name="customer_password" pattern="[\w]{4,}" th:value="${customer_password}"
+                                title="英語の大文字、小文字、数字が4文字以上のパスワードを作成してください。" required>
+                            </td>
+                        </tr>
+                    </table>
                     <input type="hidden" name="customer_id" th:value="${customer.id}">
                     <input type="submit" value="はい" class="btn-submit">
                 </form>
-                <form action="/customer/search" method="get" style="display: inline">
+                <form action="/customer" method="get" style="display: inline">
                     <input type="submit" value="いいえ" class="btn-delete">
                 </form>
             </div>

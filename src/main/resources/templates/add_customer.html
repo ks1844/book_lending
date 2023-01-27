@@ -18,26 +18,33 @@
                     <tr>
                         <th>名前</th>
                         <td>
-                            <input type="text" name="name" title="名前" required>
+                            <input type="text" name="customer_name" title="名前"  th:value="${customer_name}" required>
                         </td>
                     </tr>
                     <tr>
                         <th>電話番号</th>
                         <td>
-                            <input type="tel" name="tel" pattern="[\-\d]{10,}" required
-                            title="半角数字10文字以上">
+                            <input type="tel" name="customer_tel" pattern="[\-\d]{10,}" th:value="${customer_tel}"
+                            title="半角数字10文字以上" required>
                         </td>
                     </tr>
                     <tr>                
                         <th>メールアドレス</th>
                         <td>
-                            <input type="email" name="mail" required>
+                            <input type="email" name="customer_mail" th:value="${customer_mail}" required>
                         </td>
                     </tr>
                     <tr>
                         <th>パスワード</th>
                         <td>
-                            <input type="text" name="password" pattern="[\w]{4,}" 
+                            <input type="password" name="customer_password" pattern="[\w]{4,}" th:value="${customer_password}"
+                            title="英語の大文字、小文字、数字が4文字以上のパスワードを作成してください。" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>パスワード(確認用)</th>
+                        <td>
+                            <input type="password" name="customer_password_identification" pattern="[\w]{4,}" 
                             title="英語の大文字、小文字、数字が4文字以上のパスワードを作成してください。" required>
                         </td>
                     </tr>

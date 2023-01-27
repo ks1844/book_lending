@@ -40,7 +40,7 @@
         </div>
         <div class="sub-container display">
             <h2>資料一覧</h2>
-            <table border="1">
+            <table>
                 <tr>
                     <th>書籍ID</th>
                     <th>書籍名</th>
@@ -54,10 +54,25 @@
                     <td th:text="${book.category}"></td>
                 </tr>
             </table>
-            <button class="btn-add">
+            <!-- <button class="btn-add">
                 <a href="/bookinfo/showAdd">新規登録</a>
-            </button>
+            </button>     -->
+            <form action="/bookinfo/showAdd" method="get">
+                <input type="submit" value="新規登録" class="btn-add">
+            </form>
         </div>
     </div>
+    <script>
+        // アイコンをマウスオーバーで強調する
+        function changeSize(icon_obj,size){
+            icon_obj.style.width=size;
+        }
+
+        var btn_add = document.querySelector('.btn-add')      
+        size_original=btn_add.style.width
+        size_large='300px'
+        btn_add.addEventListener('mouseover',function(){changeSize(btn_add,size_large)});
+        btn_add.addEventListener('mouseout',function(){changeSize(btn_add,size_original)});
+    </script>
 </body>
 </html>

@@ -28,8 +28,11 @@
                     <th>延滞履歴対応</th>
                 </tr>
                 <tr th:each="unsent_history:${unsent_histories}">
-                    <td th:text="${unsent_history.id}"></td>
-                    <td th:text="${unsent_history.customerName}"></td>
+                    <td th:text="${unsent_history.id}"></td>           
+                    <td>
+                        <a th:text="${unsent_history.customerName}" 
+                        th:href="'/customer/show/'+${unsent_history.customerId}"></a>
+                    </td>
                     <td th:text="${unsent_history.bookName}"></td>
                     <td th:text="${unsent_history.bookAuthor}"></td>
                     <td th:text="${unsent_history.categoryName}"></td>
@@ -62,7 +65,12 @@
                     </tr>
                     <tr th:each="sent_history:${sent_histories}">
                         <td th:text="${sent_history.id}"></td>
-                        <td th:text="${sent_history.customerName}"></td>
+                        <!-- <td th:text="${sent_history.customerName}"></td>
+                         -->
+                        <td>
+                            <a th:text="${sent_history.customerName}" 
+                            th:href="'/customer/show/'+${sent_history.customerId}"></a>
+                        </td>
                         <td th:text="${sent_history.bookName}"></td>
                         <td th:text="${sent_history.bookAuthor}"></td>
                         <td th:text="${sent_history.categoryName}"></td>

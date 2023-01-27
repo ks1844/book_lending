@@ -11,30 +11,38 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LendingController {
 
+	// リポジトリの宣言
+	// 書籍の表示
 	@Autowired
 	BookDisplayRepository bookDisplayRepository;
 
+	// 書籍情報の表示
 	@Autowired
 	BookInfoDisplayRepository bookInfoDisplayRepository;
 
+	// 書籍
 	@Autowired
 	BookRepository bookRepository;
 
+	// 貸出履歴の表示
 	@Autowired
 	HistoryDisplayRepository historyDisplayRepository;
 
+	// 会員
 	@Autowired
 	CustomerRepository customerRepository;
 
+	// 図書館
 	@Autowired
 	LibraryRepository libraryRepository;
 
+	// 貸出履歴
 	@Autowired
 	HistoryRepository historyRepository;
 	
+	// 延滞者メッセージ
 	@Autowired
 	MessageRepository messageRepository;
-
 
 	// 貸出履歴画面へ遷移
 	@RequestMapping("/lending")
@@ -84,8 +92,10 @@ public class LendingController {
 			return mv;
 		}
 
-		// 書籍オブジェクトを取得
+		// 書籍IDから書籍オブジェクトを取得
 		List<Book> books = bookRepository.findById(bookId);
+		
+		// 書籍IDが存在しないとき、警告を渡す
 		if (books == null) {
 			mv.addObject("message", "存在しない書籍IDです。");
 			mv.setViewName("lend_book");

@@ -17,20 +17,20 @@
                     <table>
                         <tr>
                             <th>名前</th>
-                            <td><input type="textarea" name="name"></td>
+                            <td><input type="textarea" name="name" th:value="${customer_name}"></td>
                         </tr>
                         <tr>
                             <th>電話番号</th>
-                            <td><input type="textarea" name="tel"></td>
+                            <td><input type="textarea" name="tel" th:value="${customer_tel}"></td>
                         </tr>
                         <tr>
                             <th>メールアドレス</th>
-                            <td><input type="textarea" name="mail"></td>
+                            <td><input type="textarea" name="mail" th:value="${customer_mail}"></td>
                         </tr>
                         <tr>
                             <th>その他</th>
                             <td>
-                                <input type="checkbox" name="is_deleted" value="1">
+                                <input type="checkbox" name="is_deleted" th:checked="${is_deleted==true}">
                                 退会済みの会員も含む
                             </td>
                         </tr>

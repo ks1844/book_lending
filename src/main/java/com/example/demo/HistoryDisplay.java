@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @NoArgsConstructor
 @Entity
@@ -16,6 +17,9 @@ public class HistoryDisplay {
 
 	@Column(name = "customer_name")
 	private String customerName;
+
+	@Column(name = "customer_id")
+	private String customerId;
 
 	@Column(name = "book_name")
 	private String bookName;
